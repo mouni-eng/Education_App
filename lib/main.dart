@@ -13,10 +13,10 @@ void main() async{
   await Firebase.initializeApp();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
-  runApp(MovieApp());
+  runApp(EducationApp());
 }
 
-class MovieApp extends StatelessWidget {
+class EducationApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
