@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/services/helper/icon_broken.dart';
 
 void navigateTo(context, Widget screen) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
@@ -148,28 +150,48 @@ Color chooseColor({required ToastState state}) {
 
 Widget buildServicesList(context) => InkWell(
       onTap: () {},
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Row(
-            children: [
-              FaIcon(
-                FontAwesomeIcons.chalkboardTeacher,
-                color: kSecondaryColor,
-                size: 30.0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                children: [
+                  Icon(IconBroken.Profile, size: 30.0,),
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  Text(
+                    'Tutors',
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          fontSize: 18.0,
+                        ),
+                  ),
+                ],
               ),
-              SizedBox(
-                width: 15.0,
-              ),
-              Text(
-                'Tutors',
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+            ),
+          ),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Row(
+                children: [
+                  Icon(IconBroken.Document, size: 30.0,),
+                  SizedBox(
+                    width: 15.0,
+                  ),
+                  Text(
+                    'Courses',
+                    style: Theme.of(context).textTheme.bodyText2!.copyWith(
                       fontSize: 18.0,
                     ),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
 

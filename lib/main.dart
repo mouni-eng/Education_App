@@ -28,14 +28,12 @@ class EducationApp extends StatelessWidget {
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, states) {},
         builder: (context, states) {
-          Widget home = AppCubit.get(context).chooseInitialPage();
+          AppCubit cubit = AppCubit.get(context);
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Education App',
             theme: lightTheme,
-            darkTheme: darkTheme,
-            themeMode: ThemeMode.light,
-            home: home,
+            home: cubit.chooseInitialPage(),
           );
         } ,
       ),

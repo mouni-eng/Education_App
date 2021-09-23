@@ -26,14 +26,14 @@ class SettingsView extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        defaultTextField(
-                            size: 24,
-                            text: "Mohamed Mounir",
-                            color: Colors.black),
+                        Text('Mohamed Mounir', style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                          fontSize: 24.0,
+                        ),),
                         Spacer(),
                         CircleAvatar(
+                            foregroundColor: Colors.white,
                             backgroundColor: kPrimaryColor,
-                            child: Icon(IconBroken.Profile)),
+                            child: Icon(IconBroken.Profile,)),
                       ],
                     ),
                     SizedBox(
@@ -49,10 +49,10 @@ class SettingsView extends StatelessWidget {
                             child: defaultTextField(
                                 size: 18,
                                 text: 'View full profile',
-                                color: Colors.blueAccent)),
+                                color: Theme.of(context).accentColor)),
                         Icon(
                           IconBroken.Arrow___Right_2,
-                          color: Colors.blueAccent,
+                          color: Theme.of(context).iconTheme.color,
                           size: 18.0,
                         ),
                       ],
@@ -71,26 +71,20 @@ class SettingsView extends StatelessWidget {
                       trailing: Switch(
                         onChanged: (value) {},
                         value: false,
+                        activeColor: Theme.of(context).iconTheme.color,
                       ),
                       leading: Text(
                         "Notifications",
                         style: Theme.of(context).textTheme.bodyText1,
                       )),
                   Divider(),
-                  ListTile(
-                      trailing: Switch(
-                        onChanged: (value) {},
-                        value: false,
-                      ),
-                      leading: Text(
-                        "Dark Mode",
-                        style: Theme.of(context).textTheme.bodyText1,
-                      )),
-                  Divider(),
                   InkWell(
                     onTap: () {},
                     child: ListTile(
-                        trailing: Icon(IconBroken.Info_Circle),
+                        trailing: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(IconBroken.Info_Circle, color: Theme.of(context).iconTheme.color, size: 30.0,),
+                        ),
                         leading: Text(
                           "Help",
                           style: Theme.of(context).textTheme.bodyText1,
@@ -113,7 +107,10 @@ class SettingsView extends StatelessWidget {
                         });
                       },
                     child: ListTile(
-                        trailing: Icon(IconBroken.Logout),
+                        trailing: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(IconBroken.Logout, color: Theme.of(context).iconTheme.color, size: 30.0,),
+                        ),
                         leading: Text(
                           "Logout",
                           style: Theme.of(context).textTheme.bodyText1,
