@@ -16,6 +16,7 @@ class AppCubit extends Cubit<AppStates> {
   static AppCubit get(context) => BlocProvider.of(context);
 
   String? myUid;
+  bool isDark = false;
 
   void getCacheData() {
     myUid = CacheHelper.getData(key: "uId");
@@ -29,6 +30,7 @@ class AppCubit extends Cubit<AppStates> {
       if(uId == null) return LoginView();
       else return LayoutView();
   }
+
 
   // section handling the Bottom Nav Bar
 

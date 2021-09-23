@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/widgets.dart';
 
 class ExploreView extends StatelessWidget {
@@ -15,9 +16,9 @@ class ExploreView extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Icon(Icons.cloud, color: kPrimaryColor,),
+                  Icon(Icons.cloud,),
                   SizedBox(width: 10.0,),
-                  Text('Good evening, Mohamed', style: Theme.of(context).textTheme.bodyText2,),
+                  Text('Good evening, Mohamed', style: Theme.of(context).textTheme.bodyText2),
                 ],
               ),
               SizedBox(height: 15.0,),
@@ -42,10 +43,11 @@ class ExploreView extends StatelessWidget {
                         padding: const EdgeInsets.all(8.0),
                         child: CircleAvatar(
                           radius: 20.0,
+                          foregroundColor: Colors.white,
                           backgroundColor: kPrimaryColor,
                           child: IconButton(
                             onPressed: () {},
-                            icon: Icon(Icons.person, color: Colors.white,),
+                            icon: Icon(IconBroken.Profile,),
                           ),
                         ),
                       )
@@ -58,15 +60,8 @@ class ExploreView extends StatelessWidget {
               SizedBox(height: 15.0,),
               Container(
                 height: 100.0,
-                child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) => buildServicesList(context),
-                  separatorBuilder: (context, index) => SizedBox(width: 20.0,),
-                  itemCount: 2,
+                child: buildServicesList(context),
                 ),
-              ),
               SizedBox(height: 25.0,),
               Text("Your available subjects for studying:", style: Theme.of(context).textTheme.bodyText1,),
               SizedBox(height: 15.0,),

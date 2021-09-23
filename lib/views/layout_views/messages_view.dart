@@ -8,7 +8,7 @@ class MessagesView extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Icon(IconBroken.Info_Circle, color: kSecondaryColor, size: 80.0,),
+        Icon(IconBroken.Info_Circle, size: 80.0,),
         SizedBox(
           height: 20.0,
         ),
