@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:movies_app/constants.dart';
 import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
+import 'package:movies_app/view_models/explore_cubit/cubit.dart';
 import 'package:movies_app/views/auth_views/login_view.dart';
+import 'package:movies_app/views/layout_views/profile_view.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SettingsView extends StatelessWidget {
   @override
@@ -26,14 +30,15 @@ class SettingsView extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Text('Mohamed Mounir', style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                        Text(
+                          ExploreCubit.get(context).userModel!.name!, style: Theme.of(context).textTheme.bodyText1!.copyWith(
                           fontSize: 24.0,
                         ),),
                         Spacer(),
                         CircleAvatar(
                             foregroundColor: Colors.white,
                             backgroundColor: kPrimaryColor,
-                            child: Icon(IconBroken.Profile,)),
+                            backgroundImage: ExploreCubit.get(context).profileImage == null ? NetworkImage(ExploreCubit.get(context).userModel!.image!) : FileImage(ExploreCubit.get(context).profileImage!) as ImageProvider,),
                       ],
                     ),
                     SizedBox(
@@ -45,10 +50,12 @@ class SettingsView extends StatelessWidget {
                     Row(
                       children: [
                         TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              navigateTo(context, ProfileScreen());
+                            },
                             child: defaultTextField(
                                 size: 18,
-                                text: 'View full profile',
+                                text: LocaleKeys.settingsInfo1.tr(),
                                 color: Theme.of(context).accentColor)),
                         Icon(
                           IconBroken.Arrow___Right_2,
@@ -74,19 +81,36 @@ class SettingsView extends StatelessWidget {
                         activeColor: Theme.of(context).iconTheme.color,
                       ),
                       leading: Text(
-                        "Notifications",
+                        LocaleKeys.settingsInfo2.tr(),
                         style: Theme.of(context).textTheme.bodyText1,
                       )),
                   Divider(),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      showAlertDialog(context);
+                    },
+                    child: ListTile(
+                        trailing: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(IconBroken.More_Circle, color: Theme.of(context).iconTheme.color, size: 30.0,),
+                        ),
+                        leading: Text(
+                          LocaleKeys.settingsInfo5.tr(),
+                          style: Theme.of(context).textTheme.bodyText1,
+                        )),
+                  ),
+                  Divider(),
+                  InkWell(
+                    onTap: () async{
+                      await context.setLocale(Locale('en'));
+                    },
                     child: ListTile(
                         trailing: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Icon(IconBroken.Info_Circle, color: Theme.of(context).iconTheme.color, size: 30.0,),
                         ),
                         leading: Text(
-                          "Help",
+                          LocaleKeys.settingsInfo3.tr(),
                           style: Theme.of(context).textTheme.bodyText1,
                         )),
                   ),
@@ -112,7 +136,7 @@ class SettingsView extends StatelessWidget {
                           child: Icon(IconBroken.Logout, color: Theme.of(context).iconTheme.color, size: 30.0,),
                         ),
                         leading: Text(
-                          "Logout",
+                          LocaleKeys.settingsInfo4.tr(),
                           style: Theme.of(context).textTheme.bodyText1,
                         )),
                   ),
@@ -124,4 +148,40 @@ class SettingsView extends StatelessWidget {
       ),
     );
   }
+}
+
+showAlertDialog(BuildContext context) {
+  AlertDialog alert = AlertDialog(
+    title: Text(LocaleKeys.settingsInfo5.tr()),
+    actions: [
+      defaultButton(
+        text: "English",
+        radius: 10,
+        function: () async{
+          await context.setLocale(Locale('en'));
+          Navigator.of(context).pop();
+        },
+      ),
+      SizedBox(
+        height: 10.0,
+      ),
+      defaultButton(
+        text: "العربيه",
+        radius: 10,
+        function: () async{
+          await context.setLocale(Locale('ar'));
+          Navigator.of(context).pop();
+        },
+      ),
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+    barrierDismissible: true,
+  );
 }

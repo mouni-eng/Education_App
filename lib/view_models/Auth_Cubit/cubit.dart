@@ -60,6 +60,4 @@ class AuthCubit extends Cubit<AuthStates> {
       emit(CreateUserErrorState(error: error));
     });
   }
-
-
 }
