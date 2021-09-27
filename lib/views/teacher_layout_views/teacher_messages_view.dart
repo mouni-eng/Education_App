@@ -3,7 +3,7 @@ import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-class MessagesView extends StatelessWidget {
+class TeacherMessagesView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(

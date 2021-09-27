@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/models/onboarding_model.dart';
 import 'package:movies_app/services/helper/icon_broken.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void navigateTo(context, Widget screen) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
@@ -163,7 +166,7 @@ Widget buildServicesList(context) => InkWell(
                     width: 15.0,
                   ),
                   Text(
-                    'Tutors',
+                    LocaleKeys.service1.tr(),
                     style: Theme.of(context).textTheme.bodyText2!.copyWith(
                           fontSize: 18.0,
                         ),
@@ -182,7 +185,7 @@ Widget buildServicesList(context) => InkWell(
                     width: 15.0,
                   ),
                   Text(
-                    'Courses',
+                    LocaleKeys.service2.tr(),
                     style: Theme.of(context).textTheme.bodyText2!.copyWith(
                       fontSize: 18.0,
                     ),
@@ -204,7 +207,7 @@ Widget buildSuggestionList(context) => InkWell(
             children: [
               Image(image: AssetImage("assets/images/physics.jpg",), width: 60, height: 60,),
               Text(
-                'Physics',
+                LocaleKeys.subject1.tr(),
                 style: Theme.of(context).textTheme.bodyText2!.copyWith(
                       fontSize: 18.0,
                     ),
@@ -214,3 +217,22 @@ Widget buildSuggestionList(context) => InkWell(
         ),
       ),
     );
+
+
+Widget onBoardingBuild(OnBoardingModel model) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Expanded(child: SvgPicture.asset('${model.image}')),
+      SizedBox(
+        height: 30.0,
+      ),
+      Text(
+        "${model.title}",
+        style: TextStyle(
+          fontSize: 18.0,
+        ),
+      ),
+    ],
+  );
+}
