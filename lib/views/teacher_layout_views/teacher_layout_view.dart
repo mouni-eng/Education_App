@@ -9,6 +9,7 @@ class TeacherLayoutView extends StatelessWidget {
   Widget build(BuildContext context) {
     List<String> teacherTitles = [
       'Services',
+      'Add Services',
       'Messages',
       'Profile',
     ];
@@ -18,11 +19,15 @@ class TeacherLayoutView extends StatelessWidget {
           icon: Icon(IconBroken.Document)
       ),
       BottomNavigationBarItem(
-          label: teacherTitles[1],
-          icon: Icon(IconBroken.Message)
+        label: teacherTitles[1],
+        icon: Icon(IconBroken.Upload),
       ),
       BottomNavigationBarItem(
           label: teacherTitles[2],
+          icon: Icon(IconBroken.Message)
+      ),
+      BottomNavigationBarItem(
+          label: teacherTitles[3],
           icon: Icon(IconBroken.Profile)
       ),
     ];
@@ -33,6 +38,9 @@ class TeacherLayoutView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(teacherTitles[cubit.teacherCurrentIndex]),
+            actions: [
+              IconButton(onPressed: () {}, icon: Icon(IconBroken.Notification))
+            ],
           ),
           body: cubit.teacherScreens[cubit.teacherCurrentIndex],
           bottomNavigationBar: BottomNavigationBar(

@@ -1,3 +1,4 @@
+import 'package:movies_app/models/teacher_model.dart';
 import 'package:movies_app/models/user_model.dart';
 
 class AuthStates {}
@@ -28,6 +29,18 @@ class SignUpErrorState extends AuthStates {
   SignUpErrorState({required this.error});
 }
 
+class TeacherSignUpLoadingState extends AuthStates {}
+
+class TeacherSignUpSuccessState extends AuthStates {
+  final TeacherModel? teacherModel;
+  TeacherSignUpSuccessState({this.teacherModel});
+}
+
+class TeacherSignUpErrorState extends AuthStates {
+  final String error;
+  TeacherSignUpErrorState({required this.error});
+}
+
 class CreateUserLoadingState extends AuthStates {}
 
 class CreateUserSuccessState extends AuthStates {
@@ -39,3 +52,22 @@ class CreateUserErrorState extends AuthStates {
   final String error;
   CreateUserErrorState({required this.error});
 }
+
+class CreateTeacherLoadingState extends AuthStates {}
+
+class CreateTeacherSuccessState extends AuthStates {
+  final TeacherModel? teacherModel;
+  CreateTeacherSuccessState({this.teacherModel});
+}
+
+class CreateTeacherErrorState extends AuthStates {
+  final String error;
+  CreateTeacherErrorState({required this.error});
+}
+
+class ProfileImagePickedSuccessState extends AuthStates {}
+class ProfileImagePickedErrorState extends AuthStates {}
+class TeacherUploadLoadingState extends AuthStates {}
+class TeacherUploadProfileImageSuccessState extends AuthStates {}
+class TeacherUploadProfileImageErrorState extends AuthStates {}
+

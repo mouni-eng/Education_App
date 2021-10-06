@@ -8,9 +8,10 @@ import 'package:movies_app/translate/codegen_loader.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/App_Cubit/states.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
+import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/bloc_observer.dart';
 import 'package:movies_app/view_models/explore_cubit/cubit.dart';
-import 'package:movies_app/views/teacher_layout_views/teacher_layout_view.dart';
+import 'package:movies_app/view_models/find_teacher_cubit/cubit.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +38,9 @@ class EducationApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (BuildContext context) => AuthCubit()),
         BlocProvider(create: (BuildContext context) => AppCubit()..getCacheData()),
-        BlocProvider(create: (BuildContext context) => ExploreCubit()..getUserData()),
+        BlocProvider(create: (BuildContext context) => ExploreCubit()..getUserData()..getUserChats()),
+        BlocProvider(create: (BuildContext context) => ServicesCubit()..getTeacherData()..getService()..getChats()),
+        BlocProvider(create: (BuildContext context) => FindTeachersCubit()),
       ],
       child: BlocConsumer<AppCubit, AppStates>(
         listener: (context, states) {},
@@ -50,7 +53,7 @@ class EducationApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Education App',
             theme: lightTheme,
-            home: TeacherLayoutView(),
+            home: cubit.chooseInitialPage(),
           );
         } ,
       ),

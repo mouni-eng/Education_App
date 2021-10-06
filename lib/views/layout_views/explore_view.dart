@@ -30,7 +30,7 @@ class ExploreView extends StatelessWidget {
                       children: [
                         Icon(Icons.cloud,),
                         SizedBox(width: 10.0,),
-                        Text("${LocaleKeys.welcome.tr()} ${cubit.userModel!.name}", style: Theme.of(context).textTheme.bodyText2),
+                        Text("${LocaleKeys.welcome.tr()} ${cubit.userModel!.name!.split(" ").first}", style: Theme.of(context).textTheme.bodyText2),
                       ],
                     ),
                     SizedBox(height: 15.0,),
@@ -45,9 +45,9 @@ class ExploreView extends StatelessWidget {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('${cubit.userModel!.name} (${LocaleKeys.info.tr()})', style: Theme.of(context).textTheme.bodyText1,),
+                                Text('${cubit.userModel!.name!.split(" ").first} (${LocaleKeys.info.tr()})', style: Theme.of(context).textTheme.bodyText1,),
                                 SizedBox(height: 10.0,),
-                                Text('Grade 10 | National System (Kuwait)', style: Theme.of(context).textTheme.bodyText2,),
+                                Text('National System (Kuwait)', style: Theme.of(context).textTheme.bodyText2,),
                               ],
                             ),
                             Spacer(),
@@ -79,9 +79,9 @@ class ExploreView extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => buildSuggestionList(context),
+                        itemBuilder: (context, index) => buildSuggestionList(context, subjectsList[index]),
                         separatorBuilder: (context, index) => SizedBox(width: 20.0,),
-                        itemCount: 10,
+                        itemCount: subjectsList.length,
                       ),
                     ),
                   ],

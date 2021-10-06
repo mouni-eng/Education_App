@@ -12,3 +12,18 @@ class UserUpdateLoadingState extends ExploreStates {}
 class UploadProfileImageErrorState extends ExploreStates {}
 class UserUpdateErrorState extends ExploreStates {}
 
+class GetUserChatDataLoadingState extends ExploreStates{}
+class GetUserChatDataSuccessState extends ExploreStates{}
+class GetUserChatDataErrorState extends ExploreStates{
+  final String error;
+  GetUserChatDataErrorState({required this.error});
+}
+
+class SendUserMessageSuccessState extends ExploreStates {}
+class SendUserMessageErrorState extends ExploreStates {}
+class GetUserMessagesSuccessState extends ExploreStates {}
+
+class CreateRoomSuccessState extends ExploreStates {}
+
+class CreateRoomErrorState extends ExploreStates {}
+
