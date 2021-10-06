@@ -1,10 +1,12 @@
 import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/models/chatRoom_model.dart';
+import 'package:movies_app/models/message_model.dart';
+import 'package:movies_app/models/teacher_model.dart';
 import 'package:movies_app/models/user_model.dart';
 import 'package:movies_app/view_models/explore_cubit/states.dart';
 
@@ -30,6 +32,7 @@ class ExploreCubit extends Cubit<ExploreStates> {
       emit(GetUserErrorState(error: error.toString()));
     });
   }
+
 
   // methods handling editing the user profile
 
@@ -101,6 +104,116 @@ class ExploreCubit extends Cubit<ExploreStates> {
       getUserData();
     }).catchError((error) {
       emit(UserUpdateErrorState());
+    });
+  }
+
+  // method for getting old chats
+
+  List<TeacherModel>? userChatList = [];
+
+  void getUserChats() {
+    userChatList = [];
+    emit(GetUserChatDataLoadingState());
+    FirebaseFirestore.instance.collection('chatRooms').where('senderId', isEqualTo: uId).get().then((value) {
+      value.docs.forEach((element) {
+        var id = element.data()['receiverId'];
+        print(id);
+        FirebaseFirestore.instance.collection("teachers").doc(id).get().then((value) {
+          print(value.data());
+          userChatList!.add(TeacherModel.fromJson(value.data()!));
+        });
+      });
+      emit(GetUserChatDataSuccessState());
+    }).catchError((error) {
+      emit(GetUserChatDataErrorState(error: error.toString()));
+    });
+  }
+
+  // method for sending and getting messages
+
+  void sendUserMessage({
+    required String receiverId,
+    required String dateTime,
+    required String text,
+  }) {
+    MessageModel model = MessageModel(
+      text: text,
+      senderId: userModel!.uid,
+      receiverId: receiverId,
+      dateTime: dateTime,
+    );
+
+    // set my chats
+
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uid)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .doc()
+        .set(model.toMap())
+        .then((value) {
+      emit(SendUserMessageSuccessState());
+    }).catchError((error) {
+      emit(SendUserMessageErrorState());
+    });
+
+    // set receiver chats
+
+    FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(receiverId)
+        .collection('chats')
+        .doc(userModel!.uid)
+        .collection('messages')
+        .add(model.toMap())
+        .then((value) {
+      emit(SendUserMessageSuccessState());
+    }).catchError((error) {
+      emit(SendUserMessageErrorState());
+    });
+    if(userMessages.length == 0)
+    createChatRoom(receiverId: receiverId);
+  }
+
+  void createChatRoom({
+    required String receiverId,
+  }) {
+    FirebaseFirestore.instance.collection('chatRooms').doc().set(
+        ChatRoomModel(
+          senderId: uId,
+          receiverId: receiverId,
+          dateTime: DateTime.now().toString(),
+        ).toMap()
+    ).then((value) {
+      emit(CreateRoomSuccessState());
+    }).catchError((error) {
+      emit(CreateRoomErrorState());
+    });
+  }
+
+  List<MessageModel> userMessages = [];
+
+  void getUserMessages({
+    required String receiverId,
+  }) {
+    FirebaseFirestore.instance
+        .collection('users')
+        .doc(userModel!.uid)
+        .collection('chats')
+        .doc(receiverId)
+        .collection('messages')
+        .orderBy('dateTime')
+        .snapshots()
+        .listen((event) {
+      userMessages = [];
+
+      event.docs.forEach((element) {
+        userMessages.add(MessageModel.fromJson(element.data()));
+      });
+
+      emit(GetUserMessagesSuccessState());
     });
   }
 

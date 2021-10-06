@@ -9,6 +9,8 @@ import 'package:movies_app/views/layout_views/layout_view.dart';
 import 'package:movies_app/views/layout_views/messages_view.dart';
 import 'package:movies_app/views/layout_views/settings_view.dart';
 import 'package:movies_app/views/starting_views/onboarding_view.dart';
+import 'package:movies_app/views/teacher_layout_views/teacher_addServices_view.dart';
+import 'package:movies_app/views/teacher_layout_views/teacher_layout_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_messages_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_services_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_settings_view.dart';
@@ -18,26 +20,32 @@ class AppCubit extends Cubit<AppStates> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-  String? myUid;
+  String? myUid, myCategorie;
   bool? isBoarding;
   bool isDark = false;
 
   void getCacheData() {
     isBoarding = CacheHelper.getData(key: "onBoarding");
     myUid = CacheHelper.getData(key: "uId");
-    if(myUid != null) {
-      uId = myUid;
-    }
+    myCategorie = CacheHelper.getData(key: "categorie");
+    categorie = myCategorie;
+    uId = myUid;
+    print(categorie);
+    print(uId);
     emit(AppInitialPageState());
   }
 
   Widget chooseInitialPage() {
     if(isBoarding != null) {
-      if(uId == "") return LoginView();
-      else return LayoutView();
+      if(uId == null || categorie == null) {
+        return LoginView();
+      }else if(categorie == "teacher") {
+        return TeacherLayoutView();
+      }else {
+        return LayoutView();
+      }
     }else return OnBoardingScreen();
   }
-
 
   // section handling the Bottom Nav Bar
 
@@ -58,6 +66,7 @@ class AppCubit extends Cubit<AppStates> {
 
   List<Widget> teacherScreens = [
     TeacherServicesView(),
+    AddServicesView(),
     TeacherMessagesView(),
     TeacherSettingsView(),
   ];

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/constants.dart';
 import 'package:movies_app/models/onboarding_model.dart';
+import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
 import 'package:movies_app/views/auth_views/login_view.dart';
 import 'package:movies_app/widgets.dart';
@@ -107,7 +108,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           ),
                           curve: Curves.fastLinearToSlowEaseIn);
                     },
-                    child: Icon(Icons.arrow_forward_ios),
+                    child: Icon(IconBroken.Arrow___Right_2, size: 30.0,),
                   ),
                 ],
               )

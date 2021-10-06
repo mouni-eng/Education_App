@@ -32,23 +32,34 @@ dependencies:
   flutter_bloc: ^7.1.0
   conditional_builder: ^1.0.2
   hexcolor: ^2.0.5
+  http: ^0.13.3
   fluttertoast: ^8.0.3
   shared_preferences: ^2.0.6
   easy_localization: ^3.0.0
   flutter_svg: ^0.22.0
   smooth_page_indicator: ^1.0.0+2
   image_picker:
+  page_transition: ^2.0.4
 
   # firebase
 
   firebase_core: ^1.6.0
   firebase_auth: ^3.1.1
   firebase_storage: ^10.0.3
-  cloud_firestore: ^2.5.2
+  cloud_firestore: ^2.5.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  flutter_native_splash:
+
+# run: flutter clean && flutter pub get && flutter pub run flutter_native_splash:create
+flutter_native_splash:
+  color: "#735FF2"
+  image: assets/images/foxpes logo 3.png
+  android: true
+  ios: true
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

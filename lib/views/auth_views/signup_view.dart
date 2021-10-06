@@ -26,12 +26,15 @@ class RegisterView extends StatelessWidget {
             value: state.logInModel!.uid,
           ).then((value)
           {
-            if(value)
-              AppCubit.get(context).getCacheData();
-            navigateToAndFinish(
-              context,
-              LayoutView(),
-            );
+            CacheHelper.saveData(key: "categorie", value: "user").then((value) {
+              if (value) {
+                AppCubit.get(context).getCacheData();
+                navigateToAndFinish(
+                  context,
+                  LayoutView(),
+                );
+              }
+            });
           });
           showToast(text: "Register Success", state: ToastState.SUCCESS);
         }
