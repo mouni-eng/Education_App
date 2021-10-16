@@ -19,9 +19,17 @@ class GetServiceErrorState extends ServicesStates{
   GetServiceErrorState({required this.error});
 }
 
+class GetServiceRatingLoadingState extends ServicesStates{}
+class GetServiceRatingSuccessState extends ServicesStates{}
+class GetServiceRatingErrorState extends ServicesStates{
+  final String error;
+  GetServiceRatingErrorState({required this.error});
+}
+
 class TeacherImagePickedSuccessState extends ServicesStates {}
 class TeacherImagePickedErrorState extends ServicesStates {}
 class TeacherUpdateLoadingState extends ServicesStates {}
+class UrlTeacherProfileImageSuccessState extends ServicesStates {}
 class UploadTeacherProfileImageErrorState extends ServicesStates {}
 class TeacherUpdateErrorState extends ServicesStates {}
 
@@ -37,3 +45,5 @@ class SendMessageSuccessState extends ServicesStates {}
 class SendMessageErrorState extends ServicesStates {}
 
 class GetMessagesSuccessState extends ServicesStates {}
+
+class ChangeNotificationState extends ServicesStates {}

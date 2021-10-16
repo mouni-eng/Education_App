@@ -16,6 +16,8 @@ import 'package:movies_app/view_models/find_teacher_cubit/cubit.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  //fyes5MhtRZeL2G_BpzJnNO:APA91bHxuyL6WIgdIG9ElxTcbYBOK1th4vcS_-EbUgiQmTBZQuNBSLJ6phGB5DGGgpP581whquqGkuQJkuOa30G7cN1NGsrYYev_XWkZW3uSF_MDxkioDIW9sITxaiPpE6WTKD6udqCZ
+
   await EasyLocalization.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   await CacheHelper.init();
@@ -51,7 +53,7 @@ class EducationApp extends StatelessWidget {
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             debugShowCheckedModeBanner: false,
-            title: 'Education App',
+            title: 'Foxpes',
             theme: lightTheme,
             home: cubit.chooseInitialPage(),
           );

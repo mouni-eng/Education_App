@@ -8,7 +8,7 @@ class TeacherModel {
     this.uid,
     this.image,
     this.field,
-    this.status
+    this.status,
   });
 
   TeacherModel.fromJson(Map<String, dynamic> json) {

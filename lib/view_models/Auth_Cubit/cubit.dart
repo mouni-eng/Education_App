@@ -53,7 +53,7 @@ class AuthCubit extends Cubit<AuthStates> {
       createUser(logInModel: logInModel);
       emit(SignUpSuccessState());
     }).catchError((error) {
-      emit(SignUpErrorState(error: error));
+      emit(SignUpErrorState(error: error.toString()));
     });
   }
 
@@ -62,11 +62,20 @@ class AuthCubit extends Cubit<AuthStates> {
     _firestore.collection("users").doc(logInModel.uid).set(logInModel.toMap()).then((value) {
       emit(CreateUserSuccessState(logInModel: logInModel));
     }).catchError((error) {
-      emit(CreateUserErrorState(error: error));
+      emit(CreateUserErrorState(error: error.toString()));
     });
   }
 
   // Teacher registration methods
+
+  void teacherSignIn({required String email, password}) {
+    emit(TeacherLogInLoadingState());
+    _auth.signInWithEmailAndPassword(email: email, password: password).then((value) {
+      emit(TeacherLogInSuccessState(uId: value.user!.uid));
+    }).catchError((error) {
+      emit(TeacherLogInErrorState(error: error.toString()));
+    });
+  }
 
   void teacherSignUp({required String email, password, phone, name, field}) {
     emit(TeacherSignUpLoadingState());

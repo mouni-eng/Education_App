@@ -17,6 +17,18 @@ class LogInErrorState extends AuthStates {
   LogInErrorState({required this.error});
 }
 
+class TeacherLogInLoadingState extends AuthStates {}
+
+class TeacherLogInSuccessState extends AuthStates {
+  final String uId;
+  TeacherLogInSuccessState({required this.uId});
+}
+
+class TeacherLogInErrorState extends AuthStates {
+  final String error;
+  TeacherLogInErrorState({required this.error});
+}
+
 class SignUpLoadingState extends AuthStates {}
 
 class SignUpSuccessState extends AuthStates {

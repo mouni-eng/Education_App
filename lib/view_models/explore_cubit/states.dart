@@ -27,3 +27,5 @@ class CreateRoomSuccessState extends ExploreStates {}
 
 class CreateRoomErrorState extends ExploreStates {}
 
+class ChangeUserNotificationState extends ExploreStates {}
+

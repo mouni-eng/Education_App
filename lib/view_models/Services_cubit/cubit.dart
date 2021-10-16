@@ -1,15 +1,19 @@
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/main.dart';
 import 'package:movies_app/models/message_model.dart';
 import 'package:movies_app/models/services_model.dart';
 import 'package:movies_app/models/teacher_model.dart';
 import 'package:movies_app/models/user_model.dart';
+import 'package:movies_app/services/local/cache_helper.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
+import 'package:movies_app/widgets.dart';
 
 class ServicesCubit extends Cubit<ServicesStates> {
   ServicesCubit() : super(ServicesStates());
@@ -62,11 +66,39 @@ class ServicesCubit extends Cubit<ServicesStates> {
     });
   }
 
+  List<int> allTeachersRating = [];
+
+  void getServiceRating(dynamic id) {
+    allTeachersRating = [];
+    int ratingSum = 0;
+    double rating = 0;
+    emit(GetServiceRatingLoadingState());
+    FirebaseFirestore.instance
+        .collection('services')
+        .doc(id)
+        .collection('rating')
+        .get()
+        .then((value) {
+      value.docs.forEach((element) {
+        ratingSum += int.parse(element.data()['rating']);
+        print(element.data()['rating']);
+        rating = ratingSum / value.docs.length;
+        allTeachersRating.add(rating.toInt());
+        print(allTeachersRating);
+        emit(GetServiceRatingSuccessState());
+      }
+      );
+    }).catchError((error) {
+      print(error.toString());
+      emit(GetServiceRatingErrorState(error: error.toString()));
+    });
+  }
+
   // methods handling editing the user profile
 
   File? profileImage;
   var picker = ImagePicker();
-
+  String? imageUrl;
   Future<void> getProfileImage() async {
     final pickedFile = await picker.getImage(
       source: ImageSource.gallery,
@@ -94,14 +126,8 @@ class ServicesCubit extends Cubit<ServicesStates> {
         .putFile(profileImage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
-        //emit(SocialUploadProfileImageSuccessState());
-        print(value);
-        updateTeacher(
-          name: name,
-          phone: phone,
-          image: value,
-          email: email,
-        );
+        imageUrl = value;
+        emit(UrlTeacherProfileImageSuccessState());
       }).catchError((error) {
         emit(UploadTeacherProfileImageErrorState());
       });
@@ -114,18 +140,19 @@ class ServicesCubit extends Cubit<ServicesStates> {
     required String name,
     required String phone,
     required String email,
-    String? image,
   }) {
     TeacherModel model = TeacherModel(
       name: name,
       phone: phone,
       email: email,
-      image: image ?? teacherModel!.image,
+      field: teacherModel!.field,
+      image: imageUrl ?? teacherModel!.image,
+      status: teacherModel!.status,
       uid: teacherModel!.uid,
     );
 
     FirebaseFirestore.instance
-        .collection('users')
+        .collection('teachers')
         .doc(teacherModel!.uid)
         .update(model.toMap())
         .then((value) {
@@ -139,21 +166,17 @@ class ServicesCubit extends Cubit<ServicesStates> {
 
   List<LogInModel>? chatList = [];
 
-  void getChats() {
-    chatList = [];
+  Future<void> getChats() async{
     emit(GetChatDataLoadingState());
-    FirebaseFirestore.instance.collection('chatRooms').where('receiverId', isEqualTo: uId).get().then((value) {
-      value.docs.forEach((element) {
+    FirebaseFirestore.instance.collection('chatRooms').where('receiverId', isEqualTo: uId).snapshots().listen((event) {
+      chatList = [];
+      event.docs.forEach((element) {
         var id = element.data()['senderId'];
-        print(id);
         FirebaseFirestore.instance.collection("users").doc(id).get().then((value) {
-          print(value.data());
           chatList!.add(LogInModel.fromJson(value.data()!));
         });
       });
       emit(GetChatDataSuccessState());
-    }).catchError((error) {
-      emit(GetChatDataErrorState(error: error.toString()));
     });
   }
 
@@ -163,7 +186,7 @@ class ServicesCubit extends Cubit<ServicesStates> {
     required String receiverId,
     required String dateTime,
     required String text,
-  }) {
+  }) async{
     MessageModel model = MessageModel(
       text: text,
       senderId: teacherModel!.uid,
@@ -200,7 +223,6 @@ class ServicesCubit extends Cubit<ServicesStates> {
     }).catchError((error) {
       emit(SendMessageErrorState());
     });
-
   }
 
   List<MessageModel> messages = [];
@@ -218,7 +240,6 @@ class ServicesCubit extends Cubit<ServicesStates> {
         .snapshots()
         .listen((event) {
       messages = [];
-
       event.docs.forEach((element) {
         messages.add(MessageModel.fromJson(element.data()));
       });
@@ -226,4 +247,35 @@ class ServicesCubit extends Cubit<ServicesStates> {
       emit(GetMessagesSuccessState());
     });
   }
+
+  // notifications
+
+  bool value = true;
+
+  void changeNotification() {
+    value = !value;
+    emit(ChangeNotificationState());
+  }
+
+  Future<void> teacherSignOut(context) async{
+    await FirebaseAuth.instance.signOut();
+    CacheHelper.removeData(
+      key: 'uId',
+    ).then((value)
+    {
+      CacheHelper.removeData(
+          key: 'categorie'
+      ).then((value) {
+        if (value)
+        {
+          teacherModel = null;
+          navigateToAndFinish(
+            context,
+            EducationApp(),
+          );
+        }
+      });
+    });
+  }
+
 }

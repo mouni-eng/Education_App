@@ -19,7 +19,9 @@ class TeacherMessagesView extends StatelessWidget {
         return ConditionalBuilder(
           condition: cubit.chatList!.length > 0,
           builder: (context) => ListView.separated(
-            physics: BouncingScrollPhysics(),
+            physics: BouncingScrollPhysics(
+                parent: AlwaysScrollableScrollPhysics()
+            ),
             itemBuilder: (context, index) =>
                 buildTeacherChatItem(cubit.chatList![index], context),
             separatorBuilder: (context, index) => Divider(thickness: 0.8,),

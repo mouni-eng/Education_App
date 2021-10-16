@@ -3,11 +3,14 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/states.dart';
 import 'package:movies_app/views/layout_views/layout_view.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 
 class RegisterView extends StatelessWidget {
   @override
@@ -38,8 +41,8 @@ class RegisterView extends StatelessWidget {
           });
           showToast(text: "Register Success", state: ToastState.SUCCESS);
         }
-        else if(state is CreateUserErrorState){
-          showToast(text: state.error.toString(), state: ToastState.ERROR);
+        else if(state is SignUpErrorState){
+          showToast(text: state.error, state: ToastState.ERROR);
         }
       },
       builder: (context, state) {
@@ -52,13 +55,13 @@ class RegisterView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Register", style: Theme.of(context).textTheme.bodyText1,),
+                  Text(LocaleKeys.register.tr(), style: Theme.of(context).textTheme.bodyText1,),
                   SizedBox(
                     height: 10.0,
                   ),
                   defaultTextField(
                       size: 16,
-                      text: "Register now and discover our Teachers,",
+                      text: LocaleKeys.registerSubHead.tr(),
                       color: Colors.grey),
                   SizedBox(
                     height: 40.0,
@@ -73,7 +76,7 @@ class RegisterView extends StatelessWidget {
                         }
                         return null;
                       },
-                      label: "Email",
+                      label: LocaleKeys.email.tr(),
                       prefix: Icons.email_outlined),
                   SizedBox(
                     height: 30.0,
@@ -88,7 +91,7 @@ class RegisterView extends StatelessWidget {
                         }
                         return null;
                       },
-                      label: "Password",
+                      label: LocaleKeys.password.tr(),
                       prefix: Icons.lock_outline,
                       suffix: cubit.suffix,
                       suffixPressed: () {
@@ -108,7 +111,7 @@ class RegisterView extends StatelessWidget {
                         }
                         return null;
                       },
-                      label: "Name",
+                      label: LocaleKeys.Name.tr(),
                       prefix: Icons.person),
                   SizedBox(
                     height: 30.0,
@@ -123,7 +126,7 @@ class RegisterView extends StatelessWidget {
                       }
                       return null;
                     },
-                    label: "Phone Number",
+                    label: LocaleKeys.phoneNumber.tr(),
                     prefix: Icons.phone_android_outlined,
                   ),
                   SizedBox(
@@ -143,7 +146,7 @@ class RegisterView extends StatelessWidget {
                             );
                           }
                         },
-                        text: "Register"),
+                        text: LocaleKeys.register.tr()),
                     fallback: (context) => Center(
                       child: CircularProgressIndicator(),
                     ),

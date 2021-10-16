@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/services/helper/url_launcher.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/states.dart';
@@ -12,6 +14,7 @@ import 'package:movies_app/views/auth_views/signup_view.dart';
 import 'package:movies_app/views/layout_views/layout_view.dart';
 import 'package:movies_app/views/teacher_auth_views/teacher_login_view.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginView extends StatelessWidget {
   @override
@@ -82,7 +85,7 @@ class LoginView extends StatelessWidget {
                               }
                               return null;
                             },
-                            label: "Email",
+                            label: LocaleKeys.email.tr(),
                             prefix: Icons.email_outlined),
                         SizedBox(
                           height: 20.0,
@@ -97,7 +100,7 @@ class LoginView extends StatelessWidget {
                               }
                               return null;
                             },
-                            label: "Password",
+                            label: LocaleKeys.password.tr(),
                             prefix: Icons.lock_outline,
                             suffix: cubit.suffix,
                             suffixPressed: () {
@@ -115,10 +118,11 @@ class LoginView extends StatelessWidget {
                                 if (_formKey.currentState!.validate()) {
                                   cubit.signIn(
                                       email: _emailEditingController.text,
-                                      password: _passwordEditingController.text);
+                                      password: _passwordEditingController.text
+                                  );
                                 }
                               },
-                              text: "LOGIN"),
+                              text: LocaleKeys.login.tr()),
                           fallback: (context) => Center(
                             child: CircularProgressIndicator(),
                           ),
@@ -128,14 +132,14 @@ class LoginView extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text("Don't have an account?", style: Theme.of(context).textTheme.bodyText2,),
+                            Text(LocaleKeys.doNotHave.tr(), style: Theme.of(context).textTheme.bodyText2,),
                             TextButton(
                                 onPressed: () {
                                   navigateTo(context, RegisterView());
                                 },
                                 child: defaultTextField(
                                     size: 14.0,
-                                    text: "REGISTER",
+                                    text: LocaleKeys.register.tr(),
                                     color: kPrimaryColor)),
                           ],
                         ),
@@ -147,11 +151,15 @@ class LoginView extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            decoratedTextButton(text: "Join as tutor", onPressed: () {
+                            decoratedTextButton(text: LocaleKeys.joinAs.tr(), onPressed: () {
                               navigateTo(context, TeacherLoginView());
                             }, context: context),
-                            decoratedTextButton(text: "Get Help", onPressed: () {
-                              navigateTo(context, TeacherLoginView());
+                            decoratedTextButton(text: LocaleKeys.getHelp.tr(), onPressed: () async{
+                              await Utils.openEmail(
+                                toEmail: 'othman_almufarrij@hotmail.com',
+                                subject: 'Get Help',
+                                body: '',
+                              );
                             }, context: context),
                           ],
                         ),

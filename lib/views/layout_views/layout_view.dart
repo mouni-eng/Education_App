@@ -38,9 +38,6 @@ class LayoutView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(titles[cubit.currentIndex]),
-            actions: [
-              IconButton(onPressed: (){}, icon: Icon(IconBroken.Notification), iconSize: 30.0,),
-            ],
           ),
           body: cubit.screens[cubit.currentIndex],
           bottomNavigationBar: BottomNavigationBar(

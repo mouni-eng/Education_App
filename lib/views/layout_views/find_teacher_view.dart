@@ -34,7 +34,7 @@ class FindTeacherView extends StatelessWidget {
                     ListView.separated(
                       shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) => buildServiceCard(context, cubit.allTeachersServices![index]),
+                        itemBuilder: (context, index) => buildServiceCard(context, cubit.allTeachersServices![index], cubit.allTeachersServicesId![index],),
                         separatorBuilder: (context, index) => SizedBox(
                           height: 20.0,
                         ),
@@ -44,7 +44,9 @@ class FindTeacherView extends StatelessWidget {
                 ),
               ),
             ),
-            fallback: (context) => Center(child: CircularProgressIndicator(),),
+            fallback: (context) => Center(child: Text('No current services', style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              fontSize: 18.0,
+            ),),),
           );
         },
       ),
