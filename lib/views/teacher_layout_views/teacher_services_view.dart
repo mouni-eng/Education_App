@@ -3,9 +3,11 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/services/helper/icon_broken.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TeacherServicesView extends StatelessWidget {
   @override
@@ -29,7 +31,7 @@ class TeacherServicesView extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Your Account is still Pending', style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                          Text(LocaleKeys.teacherPending.tr(), style: Theme.of(context).textTheme.bodyText2!.copyWith(
                             color: Colors.white,
                           ),),
                           Icon(IconBroken.Info_Circle, color: Colors.white,),

@@ -4,13 +4,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/services/helper/url_launcher.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/states.dart';
 import 'package:movies_app/views/teacher_auth_views/teacher_register_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_layout_view.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TeacherLoginView extends StatelessWidget {
   @override
@@ -21,7 +24,7 @@ class TeacherLoginView extends StatelessWidget {
     return Scaffold(
       body: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {
-          if (state is LogInSuccessState) {
+          if (state is TeacherLogInSuccessState) {
             CacheHelper.saveData(
               key: 'uId',
               value: state.uId,
@@ -38,7 +41,7 @@ class TeacherLoginView extends StatelessWidget {
               });
             });
             showToast(text: "LogIn Success", state: ToastState.SUCCESS);
-          } else if (state is LogInErrorState) {
+          } else if (state is TeacherLogInErrorState) {
             showToast(text: state.error.toString(), state: ToastState.ERROR);
           }
         },
@@ -83,7 +86,7 @@ class TeacherLoginView extends StatelessWidget {
                               }
                               return null;
                             },
-                            label: "Email",
+                            label: LocaleKeys.email.tr(),
                             prefix: Icons.email_outlined),
                         SizedBox(
                           height: 20.0,
@@ -98,7 +101,7 @@ class TeacherLoginView extends StatelessWidget {
                               }
                               return null;
                             },
-                            label: "Password",
+                            label: LocaleKeys.password.tr(),
                             prefix: Icons.lock_outline,
                             suffix: cubit.suffix,
                             suffixPressed: () {
@@ -109,18 +112,19 @@ class TeacherLoginView extends StatelessWidget {
                           height: 20.0,
                         ),
                         ConditionalBuilder(
-                          condition: state is! LogInLoadingState,
+                          condition: state is! TeacherLogInLoadingState,
                           builder: (context) => defaultButton(
                               radius: 25,
                               function: () {
                                 if (_formKey.currentState!.validate()) {
-                                  cubit.signIn(
+                                  cubit.teacherSignIn(
                                       email: _emailEditingController.text,
                                       password:
                                       _passwordEditingController.text);
                                 }
                               },
-                              text: "LOGIN"),
+                              text: LocaleKeys.login.tr()
+                          ),
                           fallback: (context) => Center(
                             child: CircularProgressIndicator(),
                           ),
@@ -131,7 +135,7 @@ class TeacherLoginView extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "Didn't apply for an account?",
+                              LocaleKeys.doNotHave.tr(),
                               style: Theme.of(context).textTheme.bodyText2,
                             ),
                             TextButton(
@@ -140,7 +144,7 @@ class TeacherLoginView extends StatelessWidget {
                                 },
                                 child: defaultTextField(
                                     size: 14.0,
-                                    text: "APPLY",
+                                    text: LocaleKeys.apply.tr(),
                                     color: kPrimaryColor)),
                           ],
                         ),
@@ -152,11 +156,16 @@ class TeacherLoginView extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            decoratedTextButton(text: "Back as student", onPressed: () {
+                            decoratedTextButton(text: LocaleKeys.backAs.tr(), onPressed: () {
                               Navigator.pop(context);
                             }, context: context),
-                            decoratedTextButton(text: "Get Help", onPressed: () {
+                            decoratedTextButton(text: LocaleKeys.getHelp.tr(), onPressed: () async{
                               // to do implement get help screen
+                              await Utils.openEmail(
+                                toEmail: 'othman_almufarrij@hotmail.com',
+                                subject: 'Get Help',
+                                body: '',
+                              );
                             }, context: context),
                           ],
                         ),

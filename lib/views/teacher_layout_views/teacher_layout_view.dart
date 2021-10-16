@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/services/helper/icon_broken.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/App_Cubit/states.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TeacherLayoutView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<String> teacherTitles = [
-      'Services',
-      'Add Services',
-      'Messages',
-      'Profile',
+      LocaleKeys.teacherAppBar1.tr(),
+      LocaleKeys.teacherAppBar2.tr(),
+      LocaleKeys.teacherAppBar3.tr(),
+      LocaleKeys.teacherAppBar4.tr(),
     ];
     List<BottomNavigationBarItem> teacherBottomNavigationBarItem = [
       BottomNavigationBarItem(
@@ -38,9 +40,6 @@ class TeacherLayoutView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             title: Text(teacherTitles[cubit.teacherCurrentIndex]),
-            actions: [
-              IconButton(onPressed: () {}, icon: Icon(IconBroken.Notification))
-            ],
           ),
           body: cubit.teacherScreens[cubit.teacherCurrentIndex],
           bottomNavigationBar: BottomNavigationBar(

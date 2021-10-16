@@ -1,14 +1,18 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:movies_app/constants.dart';
+import 'package:movies_app/main.dart';
 import 'package:movies_app/models/chatRoom_model.dart';
 import 'package:movies_app/models/message_model.dart';
 import 'package:movies_app/models/teacher_model.dart';
 import 'package:movies_app/models/user_model.dart';
+import 'package:movies_app/services/local/cache_helper.dart';
 import 'package:movies_app/view_models/explore_cubit/states.dart';
+import 'package:movies_app/widgets.dart';
 
 class ExploreCubit extends Cubit<ExploreStates> {
   ExploreCubit() : super(ExploreStates());
@@ -111,21 +115,17 @@ class ExploreCubit extends Cubit<ExploreStates> {
 
   List<TeacherModel>? userChatList = [];
 
-  void getUserChats() {
-    userChatList = [];
+  Future<void> getUserChats() async{
     emit(GetUserChatDataLoadingState());
-    FirebaseFirestore.instance.collection('chatRooms').where('senderId', isEqualTo: uId).get().then((value) {
-      value.docs.forEach((element) {
+    FirebaseFirestore.instance.collection('chatRooms').where('senderId', isEqualTo: uId).snapshots().listen((event) {
+      event.docs.forEach((element) {
+        userChatList = [];
         var id = element.data()['receiverId'];
-        print(id);
         FirebaseFirestore.instance.collection("teachers").doc(id).get().then((value) {
-          print(value.data());
           userChatList!.add(TeacherModel.fromJson(value.data()!));
         });
       });
       emit(GetUserChatDataSuccessState());
-    }).catchError((error) {
-      emit(GetUserChatDataErrorState(error: error.toString()));
     });
   }
 
@@ -214,6 +214,34 @@ class ExploreCubit extends Cubit<ExploreStates> {
       });
 
       emit(GetUserMessagesSuccessState());
+    });
+  }
+
+  bool value = true;
+
+  void changeUserNotification() {
+    value = !value;
+    emit(ChangeUserNotificationState());
+  }
+
+  Future<void> signOut(context) async{
+    await FirebaseAuth.instance.signOut();
+    CacheHelper.removeData(
+      key: 'uId',
+    ).then((value)
+    {
+      CacheHelper.removeData(
+          key: 'categorie'
+      ).then((value) {
+        if (value)
+        {
+          userModel = null;
+          navigateToAndFinish(
+            context,
+            EducationApp(),
+          );
+        }
+      });
     });
   }
 

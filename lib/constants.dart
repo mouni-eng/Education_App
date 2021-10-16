@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:movies_app/models/services_model.dart';
 import 'package:movies_app/models/subject_model.dart';
+import 'package:movies_app/view_models/find_teacher_cubit/cubit.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 
 ThemeData lightTheme = ThemeData(
     accentColor: kPrimaryColor,
@@ -131,7 +134,7 @@ List<String> fields = [
   "English",
   "French",
   "General",
-  "Geography",
+  "Geology",
   "German",
   "History",
   "Italian",
@@ -210,3 +213,24 @@ List<SubjectsModel> subjectsList = [
 ];
 
 List<String> systems = ['National System', 'American System', 'Ig System'];
+
+Widget dialog(context, ServicesModel model, dynamic id) => RatingDialog(
+  enableComment: false,
+  // your app's name?
+  title: model.name!,
+  // encourage your user to leave a high rating?
+  message:
+  'Feel free to give this service a rate upon your experience',
+  // your app's logo?
+  image: Container(
+    clipBehavior: Clip.antiAliasWithSaveLayer,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+    ),
+      child: Image.network(model.image!, width: 100, height: 100,)),
+  submitButton: 'Submit',
+  onCancelled: () => print('cancelled'),
+  onSubmitted: (response) {
+    FindTeachersCubit.get(context).updateRating(id, response.rating);
+  },
+);

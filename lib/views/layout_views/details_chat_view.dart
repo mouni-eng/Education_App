@@ -54,6 +54,7 @@ class DetailsChatView extends StatelessWidget {
                       child: ConditionalBuilder(
                         condition: cubit.userMessages.length > 0,
                         builder: (context) => ListView.separated(
+                          shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index)
                           {
@@ -115,6 +116,7 @@ class DetailsChatView extends StatelessWidget {
                                   text: messageController.text,
                                 );
                                 messageController.clear();
+                                FocusScope.of(context).unfocus();
                               },
                               minWidth: 1.0,
                               child: Icon(

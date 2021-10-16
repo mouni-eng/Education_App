@@ -1,13 +1,17 @@
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
 import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
+import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/states.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_layout_view.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TeacherRegisterView extends StatefulWidget {
   @override
@@ -27,7 +31,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Apply Your Profile', style: Theme.of(context).textTheme.bodyText1!.copyWith(
+        title: Text(LocaleKeys.applyHead.tr(), style: Theme.of(context).textTheme.bodyText1!.copyWith(
           color: Colors.black,
           fontSize: 18.0,
         ),),
@@ -53,8 +57,8 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
             });
             showToast(text: "Apply Success", state: ToastState.SUCCESS);
           }
-          else if(state is CreateTeacherErrorState){
-            showToast(text: state.error.toString(), state: ToastState.ERROR);
+          else if(state is TeacherSignUpErrorState){
+            showToast(text: state.error, state: ToastState.ERROR);
           }
         },
         builder: (context, state) {
@@ -105,7 +109,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                           }
                           return null;
                         },
-                        label: "Name",
+                        label: LocaleKeys.Name.tr(),
                         prefix: IconBroken.Profile),
                     SizedBox(
                       height: 20.0,
@@ -120,7 +124,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                           }
                           return null;
                         },
-                        label: "Email",
+                        label: LocaleKeys.email.tr(),
                         prefix: IconBroken.User),
                     SizedBox(
                       height: 20.0,
@@ -135,7 +139,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                           }
                           return null;
                         },
-                        label: "Password",
+                        label: LocaleKeys.password.tr(),
                         prefix: Icons.lock_outline,
                         suffix: cubit.suffix,
                         suffixPressed: () {
@@ -155,7 +159,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                         }
                         return null;
                       },
-                      label: "Phone Number",
+                      label: LocaleKeys.phoneNumber.tr(),
                       prefix: IconBroken.Call,
                     ),
                     SizedBox(
@@ -166,7 +170,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton(items: fields.map(buildMenuItem).toList(),
                           value: field,
-                          hint: Text('Choose Your field', style: Theme.of(context).textTheme.bodyText2,),
+                          hint: Text(LocaleKeys.chooseField.tr(), style: Theme.of(context).textTheme.bodyText2,),
                           onChanged: (value) => setState(() => field = value),
                         ),
                       ),
@@ -178,17 +182,21 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                     SizedBox(
                       height: 30.0,
                     ),
-                    defaultButton(function: (){
-                      if (_formKey.currentState!.validate()) {
-                        cubit.teacherSignUp(
-                          name: _nameEditingController.text,
-                          phone: _phoneEditingController.text,
-                          email: _emailEditingController.text,
-                          field: field,
-                          password: _passwordEditingController.text,
-                        );
-                      }
-                    }, text: "Apply!", radius: 25.0,),
+                    ConditionalBuilder(
+                      condition: state is! TeacherSignUpLoadingState,
+                      builder: (context) => defaultButton(function: (){
+                        if (_formKey.currentState!.validate()) {
+                          cubit.teacherSignUp(
+                            name: _nameEditingController.text,
+                            phone: _phoneEditingController.text,
+                            email: _emailEditingController.text,
+                            field: field,
+                            password: _passwordEditingController.text,
+                          );
+                        }
+                      }, text: LocaleKeys.apply.tr(), radius: 25.0,),
+                      fallback: (context) => Center(child: CircularProgressIndicator(),),
+                    ),
                   ],
                 ),
               ),

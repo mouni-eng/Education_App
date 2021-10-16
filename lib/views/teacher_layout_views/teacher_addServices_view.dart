@@ -157,6 +157,7 @@ class AddServicesView extends StatelessWidget {
                             age: _ageEditingController.text,
                             hourRate: _hourRateEditingController.text,
                             rank: 0,
+                            rating: "NA",
                             field: cubit.teacherModel!.field ?? "",
                           )
                         );

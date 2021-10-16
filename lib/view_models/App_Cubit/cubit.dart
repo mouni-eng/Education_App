@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
@@ -14,6 +15,7 @@ import 'package:movies_app/views/teacher_layout_views/teacher_layout_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_messages_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_services_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_settings_view.dart';
+import 'package:movies_app/widgets.dart';
 
 class AppCubit extends Cubit<AppStates> {
   AppCubit() : super(AppStates());
@@ -76,5 +78,41 @@ class AppCubit extends Cubit<AppStates> {
   void teacherChangeBottomNav(int index) {
     teacherCurrentIndex = index;
     emit(TeacherAppBottomNavBarState());
+  }
+
+  // section handling notfications
+
+  Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async
+  {
+    print('on background message');
+    print(message.data.toString());
+
+    showToast(text: 'on background message', state: ToastState.SUCCESS,);
+
+    var token = await FirebaseMessaging.instance.getToken();
+
+    print(token);
+
+
+    // foreground fcm
+    FirebaseMessaging.onMessage.listen((event)
+    {
+      print('on message');
+      print(event.data.toString());
+
+      showToast(text: 'on message', state: ToastState.SUCCESS,);
+    });
+
+    // when click on notification to open app
+    FirebaseMessaging.onMessageOpenedApp.listen((event)
+    {
+      print('on message opened app');
+      print(event.data.toString());
+
+      showToast(text: 'on message opened app', state: ToastState.SUCCESS,);
+    });
+
+    // background fcm
+    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
   }
 }

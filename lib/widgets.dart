@@ -12,6 +12,7 @@ import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/find_teacher_cubit/cubit.dart';
 import 'package:movies_app/views/layout_views/details_chat_view.dart';
 import 'package:movies_app/views/layout_views/find_teacher_view.dart';
@@ -224,25 +225,22 @@ Widget buildServicesList(context) => Row(
   ],
 );
 
-Widget buildSuggestionList(context, SubjectsModel subjectsModel) => InkWell(
-      onTap: () {},
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
-            children: [
-              Image(image: AssetImage(subjectsModel.image!,), width: 60, height: 60,),
-              Text(
-                subjectsModel.title!,
-                style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                      fontSize: 18.0,
-                    ),
+Widget buildSuggestionList(context, SubjectsModel subjectsModel) => Card(
+  child: Padding(
+    padding: const EdgeInsets.all(25.0),
+    child: Column(
+      children: [
+        Image(image: AssetImage(subjectsModel.image!,), width: 60, height: 60,),
+        Text(
+          subjectsModel.title!,
+          style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                fontSize: 18.0,
               ),
-            ],
-          ),
         ),
-      ),
-    );
+      ],
+    ),
+  ),
+);
 
 Widget buildSubjectsList(context, SubjectsModel subjectsModel) => InkWell(
   onTap: () {
@@ -320,7 +318,9 @@ Widget decoratedTextButton({
     ),
 );
 
-Widget buildServiceCard(context, ServicesModel model) => Card(
+
+
+Widget buildServiceCard(context, ServicesModel model, dynamic id,) => Card(
 
   elevation: 3.0,
 
@@ -423,7 +423,8 @@ Widget buildServiceCard(context, ServicesModel model) => Card(
             padding: const EdgeInsets.all(8.0),
 
             child: defaultButton(function: () {
-              navigateTo(context, ServiceDetailsView(servicesModel: model,));
+              FindTeachersCubit.get(context).getRating(id);
+              navigateTo(context, ServiceDetailsView(servicesModel: model, id: id,));
             }, height: 35.0, isUpperCase: false, text: 'Select Profile', width: MediaQuery.of(context).size.width / 2.5),
 
           ),
@@ -541,6 +542,7 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
             padding: const EdgeInsets.all(8.0),
 
             child: defaultButton(function: () {
+              ServicesCubit.get(context).getServiceRating(model.uid);
               navigateTo(context, TeacherServiceDetailsView(servicesModel: model,));
             }, height: 35.0, isUpperCase: false, text: 'Preview Service', width: MediaQuery.of(context).size.width / 2.5),
 
@@ -556,20 +558,69 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
 
 );
 
-Widget ratingCard(context) => Container(
+Widget ratingCard(context, ServicesModel model, dynamic id, String getRating) => InkWell(
+  onTap: () {
+    showDialog(
+      context: context,
+      builder: (context) => dialog(context, model, id),
+    );
+  },
+  child:   Container(
+
+    decoration: BoxDecoration(
+
+      borderRadius: BorderRadius.circular(10),
+
+      color: kSecondaryColor.withOpacity(0.3),
+
+    ),
+
+    padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 5.0),
+
+    width: MediaQuery.of(context).size.width / 6,
+
+    child: Row(
+
+      children: [
+
+        Icon(Icons.star, color: Colors.yellow, size: 20.0,),
+        SizedBox(width: 3.0,),
+        Expanded(child: Text(getRating, overflow: TextOverflow.ellipsis, style: TextStyle(color: kPrimaryColor),)),
+
+      ],
+
+    ),
+
+  ),
+);
+
+Widget teacherRatingCard(context, ServicesModel model, String rating) => Container(
   decoration: BoxDecoration(
+
     borderRadius: BorderRadius.circular(10),
+
     color: kSecondaryColor.withOpacity(0.3),
+
   ),
+
   padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
-  width: MediaQuery.of(context).size.width / 7,
+
+  width: MediaQuery.of(context).size.width / 6,
+
   child: Row(
+
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
     children: [
+
       Icon(Icons.star, color: Colors.yellow, size: 20.0,),
-      Text('5', style: TextStyle(color: kPrimaryColor),),
+
+      Expanded(child: Text(rating, overflow: TextOverflow.ellipsis, style: TextStyle(color: kPrimaryColor),)),
+
     ],
+
   ),
+
 );
 
 Widget buildMessage(MessageModel model) => Align(
@@ -642,7 +693,7 @@ Widget buildTeacherChatItem(LogInModel model, context) => InkWell(
     child: Row(
       children: [
         CircleAvatar(
-          radius: 25.0,
+          radius: 35.0,
           backgroundImage: NetworkImage(
             '${model.image}',
           ),
@@ -654,6 +705,7 @@ Widget buildTeacherChatItem(LogInModel model, context) => InkWell(
           '${model.name}',
           style: TextStyle(
             height: 1.4,
+            fontSize: 18.0,
           ),
         ),
       ],
@@ -675,7 +727,7 @@ Widget buildUserChatItem(TeacherModel model, context) => InkWell(
     child: Row(
       children: [
         CircleAvatar(
-          radius: 25.0,
+          radius: 35.0,
           backgroundImage: NetworkImage(
             '${model.image}',
           ),
@@ -687,6 +739,7 @@ Widget buildUserChatItem(TeacherModel model, context) => InkWell(
           '${model.name}',
           style: TextStyle(
             height: 1.4,
+            fontSize: 18.0,
           ),
         ),
       ],

@@ -1,5 +1,6 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:conditional_builder/conditional_builder.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
@@ -21,7 +22,6 @@ class TeacherDetailsChatView extends StatelessWidget {
         ServicesCubit.get(context).getMessages(
           receiverId: userModel.uid!,
         );
-
         return BlocConsumer<ServicesCubit, ServicesStates>(
           listener: (context, state) {},
           builder: (context, state) {
@@ -53,6 +53,7 @@ class TeacherDetailsChatView extends StatelessWidget {
                   child: Column(
                     children: [
                       Expanded(
+                        flex: 7,
                         child: ListView.separated(
                           physics: BouncingScrollPhysics(),
                           itemBuilder: (context, index)
@@ -69,6 +70,9 @@ class TeacherDetailsChatView extends StatelessWidget {
                           ),
                           itemCount: cubit.messages.length,
                         ),
+                      ),
+                      SizedBox(
+                        height: 10.0,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -109,6 +113,7 @@ class TeacherDetailsChatView extends StatelessWidget {
                                     text: messageController.text,
                                   );
                                   messageController.clear();
+                                  FocusScope.of(context).unfocus();
                                 },
                                 minWidth: 1.0,
                                 child: Icon(
@@ -125,7 +130,9 @@ class TeacherDetailsChatView extends StatelessWidget {
                   ),
                 ),
                 fallback: (context) => Center(
-                  child: CircularProgressIndicator(),
+                  child: Text(
+                    'No current messages',
+                  ),
                 ),
               ),
             );
