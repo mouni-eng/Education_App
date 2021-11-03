@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:movies_app/constants.dart';
 import 'package:movies_app/models/teacher_model.dart';
 import 'package:movies_app/models/user_model.dart';
 import 'package:movies_app/view_models/Auth_Cubit/states.dart';
@@ -32,6 +33,8 @@ class AuthCubit extends Cubit<AuthStates> {
   void signIn({required String email, password}) {
     emit(LogInLoadingState());
     _auth.signInWithEmailAndPassword(email: email, password: password).then((value) {
+      FirebaseFirestore.instance.collection("users").doc(value.user!.uid).update(
+          {"token": tokenMessages});
       emit(LogInSuccessState(uId: value.user!.uid));
     }).catchError((error) {
       emit(LogInErrorState(error: error.toString()));
@@ -49,6 +52,7 @@ class AuthCubit extends Cubit<AuthStates> {
         uid: value.user!.uid,
         phone: phone,
         image: "https://image.freepik.com/free-photo/bearded-young-self-confident-male-with-pleasant-appearance-dressed-blue-shirt-looks-directly-isolated-white-wall-handsome-man-freelancer-thinks-about-work-indoor_273609-16089.jpg",
+        token: tokenMessages,
       );
       createUser(logInModel: logInModel);
       emit(SignUpSuccessState());
@@ -71,34 +75,47 @@ class AuthCubit extends Cubit<AuthStates> {
   void teacherSignIn({required String email, password}) {
     emit(TeacherLogInLoadingState());
     _auth.signInWithEmailAndPassword(email: email, password: password).then((value) {
+      FirebaseFirestore.instance.collection("teachers").doc(value.user!.uid).update(
+          {"token": tokenMessages});
       emit(TeacherLogInSuccessState(uId: value.user!.uid));
     }).catchError((error) {
       emit(TeacherLogInErrorState(error: error.toString()));
     });
   }
-
+  TeacherModel? teacherModel;
   void teacherSignUp({required String email, password, phone, name, field}) {
     emit(TeacherSignUpLoadingState());
     _auth.createUserWithEmailAndPassword(email: email, password: password).then((value) {
-      TeacherModel teacherModel = TeacherModel(
+      teacherModel = TeacherModel(
         email: email,
         name: name,
         uid: value.user!.uid,
+        image: "https://image.freepik.com/free-photo/bearded-young-self-confident-male-with-pleasant-appearance-dressed-blue-shirt-looks-directly-isolated-white-wall-handsome-man-freelancer-thinks-about-work-indoor_273609-16089.jpg",
         phone: phone,
-        image: imageLink ?? "https://image.freepik.com/free-photo/bearded-young-self-confident-male-with-pleasant-appearance-dressed-blue-shirt-looks-directly-isolated-white-wall-handsome-man-freelancer-thinks-about-work-indoor_273609-16089.jpg",
         field: field,
         status: "Pending",
+        token: tokenMessages,
       );
-      createTeacher(teacherModel: teacherModel);
-      emit(TeacherSignUpSuccessState());
+      if(profileImage != null) {
+        uploadProfileImage(
+          email: email,
+          name: name,
+          uid: value.user!.uid,
+          phone: phone,
+          field: field,
+        );
+        emit(TeacherSignUpSuccessState());
+      }else{
+        createTeacher();
+      }
     }).catchError((error) {
       emit(TeacherSignUpErrorState(error: error.toString()));
     });
   }
 
-  void createTeacher({required TeacherModel teacherModel}) {
+  void createTeacher() {
     emit(CreateTeacherLoadingState());
-    _firestore.collection("teachers").doc(teacherModel.uid).set(teacherModel.toMap()).then((value) {
+    _firestore.collection("teachers").doc(teacherModel!.uid).set(teacherModel!.toMap()).then((value) {
       emit(CreateTeacherSuccessState(teacherModel: teacherModel));
     }).catchError((error) {
       emit(CreateTeacherErrorState(error: error.toString()));
@@ -109,7 +126,6 @@ class AuthCubit extends Cubit<AuthStates> {
 
   File? profileImage;
   var picker = ImagePicker();
-  String? imageLink;
 
   Future<void> getProfileImage() async {
     final pickedFile = await picker.getImage(
@@ -125,17 +141,26 @@ class AuthCubit extends Cubit<AuthStates> {
     }
   }
 
-  void uploadProfileImage() async{
+  Future<void> uploadProfileImage({required String email, password, phone, name, field, uid}) async{
     emit(TeacherUploadLoadingState());
-    await getProfileImage();
     FirebaseStorage.instance
         .ref()
         .child('users/${Uri.file(profileImage!.path).pathSegments.last}')
         .putFile(profileImage!)
         .then((value) {
       value.ref.getDownloadURL().then((value) {
-        imageLink = value;
+        teacherModel = TeacherModel(
+          email: email,
+          name: name,
+          uid: uid,
+          phone: phone,
+          image: value,
+          field: field,
+          status: "Pending",
+          token: tokenMessages,
+        );
         emit(TeacherUploadProfileImageSuccessState());
+        createTeacher();
       }).catchError((error) {
         emit(TeacherUploadProfileImageErrorState());
       });

@@ -39,6 +39,8 @@ class TeacherProfileView extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
+                    if(states is TeacherUpdateLoadingState)
+                    LinearProgressIndicator(),
                     SizedBox(height: 10.0,),
                     Center(
                       child: Stack(

@@ -90,7 +90,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                               child: IconButton(
                                 icon: Icon(IconBroken.Camera, size: 10.0,),
                                 onPressed: () {
-                                  cubit.uploadProfileImage();
+                                  cubit.getProfileImage();
                                 },
                               )),
                         ],

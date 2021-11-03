@@ -64,7 +64,7 @@ ThemeData lightTheme = ThemeData(
       ),
     ));
 
-ThemeData darkTheme = ThemeData(
+/*ThemeData darkTheme = ThemeData(
     accentColor: Colors.red,
     iconTheme: IconThemeData(
       color: Colors.red,
@@ -116,14 +116,14 @@ ThemeData darkTheme = ThemeData(
         color: Colors.white,
         fontFamily: "Jannah",
       ),
-    ));
+    ));*/
 
 const kPrimaryColor = Color(0xFF735FF2);
 
 const kSecondaryColor = Colors.blueGrey;
 
 String? uId;
-
+String? tokenMessages;
 String? categorie;
 
 List<String> fields = [
@@ -211,8 +211,6 @@ List<SubjectsModel> subjectsList = [
       title: "Social Studies",
       image: "assets/images/ss.png"),
 ];
-
-List<String> systems = ['National System', 'American System', 'Ig System'];
 
 Widget dialog(context, ServicesModel model, dynamic id) => RatingDialog(
   enableComment: false,

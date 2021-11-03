@@ -2,12 +2,10 @@
 import 'package:conditional_builder/conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movies_app/services/helper/icon_broken.dart';
-import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 
 class TeacherServicesView extends StatelessWidget {
   @override
@@ -16,29 +14,13 @@ class TeacherServicesView extends StatelessWidget {
         listener: (context, states) {},
         builder: (context, states) {
           ServicesCubit cubit = ServicesCubit.get(context);
-          return ConditionalBuilder(
+          return
+            ConditionalBuilder(
             condition: cubit.teacherServices!.length != 0,
             builder: (context) => SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
-                  if(cubit.teacherModel!.status == "Pending")
-                    Container(
-                      width: double.infinity,
-                      height: 50.0,
-                      padding: const EdgeInsets.all(8.0),
-                      color: Colors.deepOrange,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(LocaleKeys.teacherPending.tr(), style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: Colors.white,
-                          ),),
-                          Icon(IconBroken.Info_Circle, color: Colors.white,),
-                        ],
-                      ),
-                    ),
-                  SizedBox(height: 10.0,),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: ListView.separated(
@@ -54,9 +36,11 @@ class TeacherServicesView extends StatelessWidget {
                 ],
               ),
             ),
-            fallback: (context) => Center(child: Text('No current services', style: Theme.of(context).textTheme.bodyText2!.copyWith(
-              fontSize: 18.0,
-            ),),),
+            fallback: (context) => Center(
+              child: Text('No current services', style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                fontSize: 18.0,
+              ),),
+            ),
           );
         },
     );

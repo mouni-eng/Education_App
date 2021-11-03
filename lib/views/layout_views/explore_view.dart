@@ -13,7 +13,7 @@ import 'package:easy_localization/easy_localization.dart';
 class ExploreView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<SubjectsModel> subjectsList = [
+    List<SubjectsModel> translatedSubjectsList = [
       SubjectsModel(
           title: LocaleKeys.Arabic.tr(),
           image: "assets/images/arabic.png"),
@@ -142,9 +142,9 @@ class ExploreView extends StatelessWidget {
                         scrollDirection: Axis.horizontal,
                         shrinkWrap: true,
                         physics: BouncingScrollPhysics(),
-                        itemBuilder: (context, index) => buildSuggestionList(context, subjectsList[index]),
+                        itemBuilder: (context, index) => buildSuggestionList(context, translatedSubjectsList[index]),
                         separatorBuilder: (context, index) => SizedBox(width: 20.0,),
-                        itemCount: subjectsList.length,
+                        itemCount: translatedSubjectsList.length,
                       ),
                     ),
                   ],

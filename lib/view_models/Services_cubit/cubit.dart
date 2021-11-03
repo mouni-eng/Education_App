@@ -12,8 +12,10 @@ import 'package:movies_app/models/services_model.dart';
 import 'package:movies_app/models/teacher_model.dart';
 import 'package:movies_app/models/user_model.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
+import 'package:movies_app/services/network/notfications.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ServicesCubit extends Cubit<ServicesStates> {
   ServicesCubit() : super(ServicesStates());
@@ -118,7 +120,7 @@ class ServicesCubit extends Cubit<ServicesStates> {
     required String phone,
     required String email,
   }) async{
-    emit(TeacherUpdateLoadingState());
+    emit(TeacherUploadLoadingState());
     await getProfileImage();
     FirebaseStorage.instance
         .ref()
@@ -141,6 +143,7 @@ class ServicesCubit extends Cubit<ServicesStates> {
     required String phone,
     required String email,
   }) {
+    emit(TeacherUpdateLoadingState());
     TeacherModel model = TeacherModel(
       name: name,
       phone: phone,
@@ -184,6 +187,7 @@ class ServicesCubit extends Cubit<ServicesStates> {
 
   void sendMessage({
     required String receiverId,
+    required LogInModel user,
     required String dateTime,
     required String text,
   }) async{
@@ -223,9 +227,11 @@ class ServicesCubit extends Cubit<ServicesStates> {
     }).catchError((error) {
       emit(SendMessageErrorState());
     });
+    NotificationCenter().sendMessageNotification(token: user.token!.toString(), title: user.name, body: "you have recieved a message from ${teacherModel!.name}");
   }
 
   List<MessageModel> messages = [];
+  var itemController = ItemScrollController();
 
   void getMessages({
     required String receiverId,
@@ -243,7 +249,10 @@ class ServicesCubit extends Cubit<ServicesStates> {
       event.docs.forEach((element) {
         messages.add(MessageModel.fromJson(element.data()));
       });
-
+      itemController.jumpTo(
+        index: messages.length,
+        alignment: 0.0,
+      );
       emit(GetMessagesSuccessState());
     });
   }

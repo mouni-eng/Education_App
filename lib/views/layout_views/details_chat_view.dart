@@ -8,6 +8,7 @@ import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/view_models/explore_cubit/cubit.dart';
 import 'package:movies_app/view_models/explore_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class DetailsChatView extends StatelessWidget {
   final TeacherModel teacherModel;
@@ -53,13 +54,15 @@ class DetailsChatView extends StatelessWidget {
                     Expanded(
                       child: ConditionalBuilder(
                         condition: cubit.userMessages.length > 0,
-                        builder: (context) => ListView.separated(
-                          shrinkWrap: true,
+                        builder: (context) => ScrollablePositionedList.separated(
+                          itemScrollController: cubit.itemController,
                           physics: BouncingScrollPhysics(),
+                          initialAlignment: 0.0,
+                          initialScrollIndex: cubit.userMessages.length,
                           itemBuilder: (context, index)
                           {
-                            var message = cubit.userMessages[index];
 
+                            var message = cubit.userMessages[index];
                             if(cubit.userModel!.uid == message.senderId)
                               return buildMyMessage(message);
 
@@ -77,6 +80,7 @@ class DetailsChatView extends StatelessWidget {
                         ),
                       ),
                     ),
+                    SizedBox(height: 10.0,),
                     Container(
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -109,7 +113,7 @@ class DetailsChatView extends StatelessWidget {
                             height: 70.0,
                             color: kPrimaryColor,
                             child: MaterialButton(
-                              onPressed: () {
+                              onPressed: () async{
                                 cubit.sendUserMessage(
                                   receiverId: teacherModel.uid!,
                                   dateTime: DateTime.now().toString(),

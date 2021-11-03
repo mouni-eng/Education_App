@@ -11,8 +11,10 @@ import 'package:movies_app/models/message_model.dart';
 import 'package:movies_app/models/teacher_model.dart';
 import 'package:movies_app/models/user_model.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
+import 'package:movies_app/services/network/notfications.dart';
 import 'package:movies_app/view_models/explore_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class ExploreCubit extends Cubit<ExploreStates> {
   ExploreCubit() : super(ExploreStates());
@@ -131,6 +133,9 @@ class ExploreCubit extends Cubit<ExploreStates> {
 
   // method for sending and getting messages
 
+  TeacherModel? teacherModel;
+  var itemController = ItemScrollController();
+
   void sendUserMessage({
     required String receiverId,
     required String dateTime,
@@ -175,6 +180,18 @@ class ExploreCubit extends Cubit<ExploreStates> {
     });
     if(userMessages.length == 0)
     createChatRoom(receiverId: receiverId);
+    FirebaseFirestore.instance
+        .collection('teachers')
+        .doc(receiverId)
+        .get().then((value) {
+          teacherModel = TeacherModel.fromJson(value.data()!);
+          NotificationCenter().sendMessageNotification(token: teacherModel!.token!.toString(), title: teacherModel!.name, body: "you have a new message from ${userModel!.name}");
+    });
+    itemController.jumpTo(
+      index: userMessages.length,
+      alignment: 0.0,
+    );
+
   }
 
   void createChatRoom({
