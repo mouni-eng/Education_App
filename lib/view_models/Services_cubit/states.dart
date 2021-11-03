@@ -29,6 +29,7 @@ class GetServiceRatingErrorState extends ServicesStates{
 class TeacherImagePickedSuccessState extends ServicesStates {}
 class TeacherImagePickedErrorState extends ServicesStates {}
 class TeacherUpdateLoadingState extends ServicesStates {}
+class TeacherUploadLoadingState extends ServicesStates {}
 class UrlTeacherProfileImageSuccessState extends ServicesStates {}
 class UploadTeacherProfileImageErrorState extends ServicesStates {}
 class TeacherUpdateErrorState extends ServicesStates {}

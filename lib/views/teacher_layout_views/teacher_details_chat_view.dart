@@ -1,6 +1,5 @@
 // ignore: import_of_legacy_library_into_null_safe
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
@@ -9,6 +8,7 @@ import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 class TeacherDetailsChatView extends StatelessWidget {
   final LogInModel userModel;
@@ -54,8 +54,12 @@ class TeacherDetailsChatView extends StatelessWidget {
                     children: [
                       Expanded(
                         flex: 7,
-                        child: ListView.separated(
+                        child: ScrollablePositionedList.separated(
                           physics: BouncingScrollPhysics(),
+                          itemScrollController: cubit.itemController,
+                          initialAlignment: 0.0,
+                          initialScrollIndex: cubit.messages.length,
+
                           itemBuilder: (context, index)
                           {
                             var message = cubit.messages[index];
@@ -106,9 +110,10 @@ class TeacherDetailsChatView extends StatelessWidget {
                               height: 70.0,
                               color: kPrimaryColor,
                               child: MaterialButton(
-                                onPressed: () {
+                                onPressed: () async{
                                   cubit.sendMessage(
                                     receiverId: userModel.uid!,
+                                    user: userModel,
                                     dateTime: DateTime.now().toString(),
                                     text: messageController.text,
                                   );

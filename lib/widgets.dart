@@ -242,9 +242,9 @@ Widget buildSuggestionList(context, SubjectsModel subjectsModel) => Card(
   ),
 );
 
-Widget buildSubjectsList(context, SubjectsModel subjectsModel) => InkWell(
+Widget buildSubjectsList(context, SubjectsModel subjectsModel, String key) => InkWell(
   onTap: () {
-    FindTeachersCubit.get(context).getAllTeacherData(key: subjectsModel.title!);
+    FindTeachersCubit.get(context).getAllTeacherData(key: key);
     navigateTo(context, FindTeacherView(teacherKey: subjectsModel.title!,));
   },
   child: Padding(

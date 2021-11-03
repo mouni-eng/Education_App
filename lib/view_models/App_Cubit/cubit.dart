@@ -82,37 +82,32 @@ class AppCubit extends Cubit<AppStates> {
 
   // section handling notfications
 
-  Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async
-  {
-    print('on background message');
-    print(message.data.toString());
+  Future<void> notificationHandler() async{
 
-    showToast(text: 'on background message', state: ToastState.SUCCESS,);
 
     var token = await FirebaseMessaging.instance.getToken();
-
-    print(token);
+    tokenMessages = token;
+    print(tokenMessages);
 
 
     // foreground fcm
     FirebaseMessaging.onMessage.listen((event)
     {
       print('on message');
-      print(event.data.toString());
-
-      showToast(text: 'on message', state: ToastState.SUCCESS,);
+      print(event.data["url"]);
+      if(teacherCurrentIndex != 2) {
+        showToast(text: event.data["url"].toString(), state: ToastState.SUCCESS,);
+      }else if(currentIndex != 1) {
+        showToast(text: event.data["url"].toString(), state: ToastState.SUCCESS,);
+      }
     });
 
     // when click on notification to open app
     FirebaseMessaging.onMessageOpenedApp.listen((event)
     {
-      print('on message opened app');
       print(event.data.toString());
 
-      showToast(text: 'on message opened app', state: ToastState.SUCCESS,);
+      showToast(text: event.data["url"].toString(), state: ToastState.SUCCESS,);
     });
-
-    // background fcm
-    FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+    }
   }
-}

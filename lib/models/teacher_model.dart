@@ -1,5 +1,5 @@
 class TeacherModel {
-  String? email, phone, name, uid, image, field, status;
+  String? email, phone, name, uid, image, field, status, token;
 
   TeacherModel({
     this.phone,
@@ -9,6 +9,7 @@ class TeacherModel {
     this.image,
     this.field,
     this.status,
+    this.token,
   });
 
   TeacherModel.fromJson(Map<String, dynamic> json) {
@@ -19,6 +20,7 @@ class TeacherModel {
     image = json['image'];
     field = json['field'];
     status = json['status'];
+    token = json['token'];
   }
 
   Map<String, dynamic> toMap() {
@@ -30,6 +32,7 @@ class TeacherModel {
       'image' : image,
       'field' : field,
       'status' : status,
+      'token' : token,
     };
   }
 }
