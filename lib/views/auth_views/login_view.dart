@@ -56,9 +56,9 @@ class LoginView extends StatelessWidget {
           return Stack(
             alignment: Alignment.topCenter,
             children: [
-             Image.asset('assets/images/cover.jpeg', width: double.infinity, height: 240, fit: BoxFit.cover,),
+             Image.asset('assets/images/cover.jpeg', width: double.infinity, height: SizeConfig.screenHeight! / 2.7, fit: BoxFit.cover,),
               Container(
-                margin: EdgeInsets.only(top: getProportionateScreenHeight(250.0)),
+                margin: EdgeInsets.only(top: SizeConfig.screenHeight! / 3.3),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 padding:  EdgeInsets.all(getProportionateScreenWidth(20.0)),
                 height: double.infinity,
@@ -76,7 +76,7 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: getProportionateScreenHeight(20),),
+                        SizedBox(height: SizeConfig.screenHeight! / 40),
                         defaultFormField(
                             context: context,
                             controller: _emailEditingController,
@@ -90,7 +90,7 @@ class LoginView extends StatelessWidget {
                             label: LocaleKeys.email.tr(),
                             prefix: Icons.email_outlined),
                         SizedBox(
-                          height: getProportionateScreenHeight(20.0),
+                          height: SizeConfig.screenHeight! / 35,
                         ),
                         defaultFormField(
                             context: context,
@@ -110,7 +110,7 @@ class LoginView extends StatelessWidget {
                             },
                             isPassword: cubit.isPassword),
                         SizedBox(
-                          height: getProportionateScreenHeight(25.0),
+                          height: SizeConfig.screenHeight! / 25,
                         ),
                         ConditionalBuilder(
                           condition: state is! LogInLoadingState,
@@ -130,7 +130,7 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: getProportionateScreenHeight(10),
+                          height: SizeConfig.screenHeight! / 30,
                         ),
                         Row(
                           children: [
@@ -149,7 +149,7 @@ class LoginView extends StatelessWidget {
                           thickness: 1.0,
                         ),
                         SizedBox(
-                          height: getProportionateScreenHeight(15),
+                          height: SizeConfig.screenHeight! / 25,
                         ),
                         Row(
                           children: [
