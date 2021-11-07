@@ -76,7 +76,7 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: SizeConfig.screenHeight! / 40),
+                        SizedBox(height: getProportionateScreenHeight(20)),
                         defaultFormField(
                             context: context,
                             controller: _emailEditingController,
@@ -90,7 +90,7 @@ class LoginView extends StatelessWidget {
                             label: LocaleKeys.email.tr(),
                             prefix: Icons.email_outlined),
                         SizedBox(
-                          height: SizeConfig.screenHeight! / 35,
+                          height: getProportionateScreenHeight(30),
                         ),
                         defaultFormField(
                             context: context,
@@ -110,7 +110,7 @@ class LoginView extends StatelessWidget {
                             },
                             isPassword: cubit.isPassword),
                         SizedBox(
-                          height: SizeConfig.screenHeight! / 25,
+                          height: getProportionateScreenHeight(30),
                         ),
                         ConditionalBuilder(
                           condition: state is! LogInLoadingState,
@@ -130,7 +130,7 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: SizeConfig.screenHeight! / 30,
+                          height: getProportionateScreenHeight(30),
                         ),
                         Row(
                           children: [
@@ -149,7 +149,7 @@ class LoginView extends StatelessWidget {
                           thickness: 1.0,
                         ),
                         SizedBox(
-                          height: SizeConfig.screenHeight! / 25,
+                          height: getProportionateScreenHeight(30),
                         ),
                         Row(
                           children: [
