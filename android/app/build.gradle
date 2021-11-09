@@ -47,7 +47,7 @@ android {
         applicationId "com.foxpes.Foxpes"
         minSdkVersion 23
         multiDexEnabled true
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }

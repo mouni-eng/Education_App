@@ -7,7 +7,7 @@ import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/states.dart';
-import 'package:movies_app/views/layout_views/layout_view.dart';
+import 'package:movies_app/views/auth_views/otp_verfication_view.dart';
 import 'package:movies_app/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -34,7 +34,7 @@ class RegisterView extends StatelessWidget {
                 AppCubit.get(context).getCacheData();
                 navigateToAndFinish(
                   context,
-                  LayoutView(),
+                  OTPView(_phoneEditingController.text, "user"),
                 );
               }
             });
@@ -48,6 +48,7 @@ class RegisterView extends StatelessWidget {
       builder: (context, state) {
         AuthCubit cubit = AuthCubit.get(context);
         return SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Form(
@@ -119,6 +120,8 @@ class RegisterView extends StatelessWidget {
                   defaultFormField(
                     context: context,
                     controller: _phoneEditingController,
+                    hintText: "+965 - 99999999",
+                    maxLength: 10,
                     type: TextInputType.phone,
                     validate: (value) {
                       if (value!.isEmpty) {
@@ -133,7 +136,7 @@ class RegisterView extends StatelessWidget {
                     height: 40.0,
                   ),
                   ConditionalBuilder(
-                    condition: state is! SignUpLoadingState,
+                    condition: state is! SignUpLoadingState && state is! CreateUserLoadingState,
                     builder: (context) => defaultButton(
                       radius: 25,
                         function: () {

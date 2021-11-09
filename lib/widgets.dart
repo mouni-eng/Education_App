@@ -42,6 +42,7 @@ Widget defaultFormField({
   required String? Function(String?)? validate,
   required String? label,
   int? maxLines = 1,
+  String? hintText,
   int? maxLength,
   required IconData? prefix,
   required BuildContext context,
@@ -62,6 +63,7 @@ Widget defaultFormField({
       validator: validate,
       decoration: InputDecoration(
         labelText: label,
+        hintText: hintText,
         hintStyle: Theme.of(context).textTheme.bodyText2,
         labelStyle: Theme.of(context).textTheme.bodyText2,
         prefixIcon: Icon(
@@ -77,11 +79,14 @@ Widget defaultFormField({
                 ),
               )
             : null,
-        border: OutlineInputBorder(),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20)
+        ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Theme.of(context).primaryColor,
           ),
+          borderRadius: BorderRadius.circular(20)
         ),
       ),
       style: Theme.of(context).textTheme.bodyText2,

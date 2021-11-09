@@ -9,7 +9,7 @@ import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/states.dart';
-import 'package:movies_app/views/teacher_layout_views/teacher_layout_view.dart';
+import 'package:movies_app/views/auth_views/otp_verfication_view.dart';
 import 'package:movies_app/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -51,7 +51,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                   AppCubit.get(context).getCacheData();
                   navigateToAndFinish(
                     context,
-                    TeacherLayoutView(),
+                    OTPView(_phoneEditingController.text, "teacher"),
                 );
               });
             });
@@ -152,6 +152,8 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                     defaultFormField(
                       context: context,
                       controller: _phoneEditingController,
+                      hintText: "+965",
+                      maxLength: 10,
                       type: TextInputType.phone,
                       validate: (value) {
                         if (value!.isEmpty) {
@@ -183,7 +185,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                       height: 30.0,
                     ),
                     ConditionalBuilder(
-                      condition: state is! TeacherSignUpLoadingState,
+                      condition: state is! TeacherSignUpLoadingState && state is! TeacherUploadLoadingState && state is! CreateTeacherLoadingState,
                       builder: (context) => defaultButton(function: (){
                         if (_formKey.currentState!.validate()) {
                           cubit.teacherSignUp(

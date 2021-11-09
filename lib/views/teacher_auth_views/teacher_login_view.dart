@@ -51,7 +51,7 @@ class TeacherLoginView extends StatelessWidget {
             alignment: Alignment.topCenter,
             children: [
               Image.asset(
-            'assets/images/cover.jpeg',
+            'assets/images/teacher.jpg',
             width: double.infinity,
             height: 240,
             fit: BoxFit.cover,

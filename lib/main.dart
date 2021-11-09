@@ -36,28 +36,28 @@ class EducationApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (BuildContext context) => AuthCubit()),
-        BlocProvider(create: (BuildContext context) => AppCubit()..getCacheData()..notificationHandler()),
-        BlocProvider(create: (BuildContext context) => ExploreCubit()..getUserData()..getUserChats()),
-        BlocProvider(create: (BuildContext context) => ServicesCubit()..getTeacherData()..getService()..getChats()),
-        BlocProvider(create: (BuildContext context) => FindTeachersCubit()),
-      ],
-      child: BlocConsumer<AppCubit, AppStates>(
-        listener: (context, states) {},
-        builder: (context, states) {
-          AppCubit cubit = AppCubit.get(context);
-          return MaterialApp(
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            debugShowCheckedModeBanner: false,
-            title: 'Foxpes',
-            theme: lightTheme,
-            home: cubit.chooseInitialPage(),
-          );
-        } ,
-      ),
-    );
+        providers: [
+          BlocProvider(create: (BuildContext context) => AuthCubit()),
+          BlocProvider(create: (BuildContext context) => AppCubit()..getCacheData()..notificationHandler()),
+          BlocProvider(create: (BuildContext context) => ExploreCubit()..getUserData()..getUserChats()),
+          BlocProvider(create: (BuildContext context) => ServicesCubit()..getTeacherData()..getService()..getChats()),
+          BlocProvider(create: (BuildContext context) => FindTeachersCubit()),
+        ],
+        child: BlocConsumer<AppCubit, AppStates>(
+          listener: (context, states) {},
+          builder: (context, states) {
+            AppCubit cubit = AppCubit.get(context);
+            return MaterialApp(
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+              title: 'Foxpes',
+              theme: lightTheme,
+              home: cubit.chooseInitialPage(),
+            );
+          } ,
+        ),
+      );
   }
 }
