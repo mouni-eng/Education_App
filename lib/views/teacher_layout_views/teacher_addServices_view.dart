@@ -5,11 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
 import 'package:movies_app/models/services_model.dart';
 import 'package:movies_app/services/helper/icon_broken.dart';
-import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class AddServicesView extends StatelessWidget {
 
@@ -43,23 +41,6 @@ class AddServicesView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if(cubit.teacherModel!.status == "Pending")
-                    Container(
-                      width: double.infinity,
-                      height: 50.0,
-                      padding: const EdgeInsets.all(8.0),
-                      color: Colors.deepOrange,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(LocaleKeys.teacherPending.tr(), style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                            color: Colors.white,
-                          ),),
-                          Icon(IconBroken.Info_Circle, color: Colors.white,),
-                        ],
-                      ),
-                    ),
-                  SizedBox(height: 10.0,),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

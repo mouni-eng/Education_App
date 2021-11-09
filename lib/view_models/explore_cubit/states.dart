@@ -8,6 +8,7 @@ GetUserErrorState({required this.error});
 }
 class ProfileImagePickedSuccessState extends ExploreStates {}
 class ProfileImagePickedErrorState extends ExploreStates {}
+class UserUploadLoadingState extends ExploreStates {}
 class UserUpdateLoadingState extends ExploreStates {}
 class UploadProfileImageErrorState extends ExploreStates {}
 class UserUpdateErrorState extends ExploreStates {}

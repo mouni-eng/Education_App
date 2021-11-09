@@ -64,7 +64,7 @@ class ExploreCubit extends Cubit<ExploreStates> {
     required String phone,
     required String email,
   }) async{
-    emit(UserUpdateLoadingState());
+    emit(UserUploadLoadingState());
     await getProfileImage();
     FirebaseStorage.instance
         .ref()
@@ -101,7 +101,7 @@ class ExploreCubit extends Cubit<ExploreStates> {
       image: image ?? userModel!.image,
       uid: userModel!.uid,
     );
-
+    emit(UserUpdateLoadingState());
     FirebaseFirestore.instance
         .collection('users')
         .doc(userModel!.uid)

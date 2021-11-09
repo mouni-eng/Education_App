@@ -39,6 +39,8 @@ class ProfileScreen extends StatelessWidget {
                 key: _formKey,
                 child: Column(
                   children: [
+                    if(states is UserUpdateLoadingState)
+                    LinearProgressIndicator(),
                     SizedBox(height: 10.0,),
                     Center(
                       child: Stack(

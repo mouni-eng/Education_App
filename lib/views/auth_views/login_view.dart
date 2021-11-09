@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/constants.dart';
 import 'package:movies_app/services/helper/url_launcher.dart';
 import 'package:movies_app/services/local/cache_helper.dart';
-import 'package:movies_app/size_config.dart';
 import 'package:movies_app/translate/locale_keys.g.dart';
 import 'package:movies_app/view_models/App_Cubit/cubit.dart';
 import 'package:movies_app/view_models/Auth_Cubit/cubit.dart';
@@ -20,7 +19,6 @@ import 'package:easy_localization/easy_localization.dart';
 class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     var _formKey = GlobalKey<FormState>();
     TextEditingController _emailEditingController = TextEditingController();
     TextEditingController _passwordEditingController = TextEditingController();
@@ -56,11 +54,11 @@ class LoginView extends StatelessWidget {
           return Stack(
             alignment: Alignment.topCenter,
             children: [
-             Image.asset('assets/images/cover.jpeg', width: double.infinity, height: SizeConfig.screenHeight! / 2.7, fit: BoxFit.cover,),
+              Image.asset('assets/images/cover.jpeg', width: double.infinity, height: 240, fit: BoxFit.cover,),
               Container(
-                margin: EdgeInsets.only(top: SizeConfig.screenHeight! / 3.3),
+                margin: const EdgeInsets.only(top: 225.0),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                padding:  EdgeInsets.all(getProportionateScreenWidth(20.0)),
+                padding: const EdgeInsets.all(20.0),
                 height: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -76,7 +74,7 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: getProportionateScreenHeight(20)),
+                        SizedBox(height: 15.0,),
                         defaultFormField(
                             context: context,
                             controller: _emailEditingController,
@@ -90,7 +88,7 @@ class LoginView extends StatelessWidget {
                             label: LocaleKeys.email.tr(),
                             prefix: Icons.email_outlined),
                         SizedBox(
-                          height: getProportionateScreenHeight(30),
+                          height: 20.0,
                         ),
                         defaultFormField(
                             context: context,
@@ -110,7 +108,7 @@ class LoginView extends StatelessWidget {
                             },
                             isPassword: cubit.isPassword),
                         SizedBox(
-                          height: getProportionateScreenHeight(30),
+                          height: 20.0,
                         ),
                         ConditionalBuilder(
                           condition: state is! LogInLoadingState,
@@ -130,7 +128,7 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: getProportionateScreenHeight(30),
+                          height: 8.0,
                         ),
                         Row(
                           children: [
@@ -140,7 +138,7 @@ class LoginView extends StatelessWidget {
                                   navigateTo(context, RegisterView());
                                 },
                                 child: defaultTextField(
-                                    size: getProportionateScreenWidth(15),
+                                    size: 14.0,
                                     text: LocaleKeys.register.tr(),
                                     color: kPrimaryColor)),
                           ],
@@ -149,7 +147,7 @@ class LoginView extends StatelessWidget {
                           thickness: 1.0,
                         ),
                         SizedBox(
-                          height: getProportionateScreenHeight(30),
+                          height: 10.0,
                         ),
                         Row(
                           children: [
