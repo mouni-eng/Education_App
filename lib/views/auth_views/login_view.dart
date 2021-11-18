@@ -15,6 +15,7 @@ import 'package:movies_app/views/layout_views/layout_view.dart';
 import 'package:movies_app/views/teacher_auth_views/teacher_login_view.dart';
 import 'package:movies_app/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sizer/sizer.dart';
 
 class LoginView extends StatelessWidget {
   @override
@@ -54,11 +55,11 @@ class LoginView extends StatelessWidget {
           return Stack(
             alignment: Alignment.topCenter,
             children: [
-              Image.asset('assets/images/cover.jpeg', width: double.infinity, height: 240, fit: BoxFit.cover,),
+              Image.asset('assets/images/cover.jpeg', width: double.infinity, height: 35.h, fit: BoxFit.cover,),
               Container(
-                margin: const EdgeInsets.only(top: 225.0),
+                margin: EdgeInsets.only(top: 34.h),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                 height: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -74,7 +75,7 @@ class LoginView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 15.0,),
+                        SizedBox(height: 3.h,),
                         defaultFormField(
                             context: context,
                             controller: _emailEditingController,
@@ -88,7 +89,7 @@ class LoginView extends StatelessWidget {
                             label: LocaleKeys.email.tr(),
                             prefix: Icons.email_outlined),
                         SizedBox(
-                          height: 20.0,
+                          height: 3.h,
                         ),
                         defaultFormField(
                             context: context,
@@ -108,7 +109,7 @@ class LoginView extends StatelessWidget {
                             },
                             isPassword: cubit.isPassword),
                         SizedBox(
-                          height: 20.0,
+                          height: 4.h,
                         ),
                         ConditionalBuilder(
                           condition: state is! LogInLoadingState,
@@ -128,7 +129,7 @@ class LoginView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 8.0,
+                          height: 2.h,
                         ),
                         Row(
                           children: [
@@ -138,7 +139,7 @@ class LoginView extends StatelessWidget {
                                   navigateTo(context, RegisterView());
                                 },
                                 child: defaultTextField(
-                                    size: 14.0,
+                                    size: 12.sp,
                                     text: LocaleKeys.register.tr(),
                                     color: kPrimaryColor)),
                           ],
@@ -147,7 +148,7 @@ class LoginView extends StatelessWidget {
                           thickness: 1.0,
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 2.h,
                         ),
                         Row(
                           children: [

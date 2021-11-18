@@ -22,6 +22,7 @@ class GetUserChatDataErrorState extends ExploreStates{
 
 class SendUserMessageSuccessState extends ExploreStates {}
 class SendUserMessageErrorState extends ExploreStates {}
+class GetUserMessagesLoadingState extends ExploreStates {}
 class GetUserMessagesSuccessState extends ExploreStates {}
 
 class CreateRoomSuccessState extends ExploreStates {}

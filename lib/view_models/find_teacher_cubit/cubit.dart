@@ -28,6 +28,8 @@ class FindTeachersCubit extends Cubit<FindTeachersStates> {
         .firestore
         .collection("services")
         .where('field', isEqualTo: key)
+        .where("dateTime", isGreaterThanOrEqualTo: DateTime.now().toString())
+        .orderBy("dateTime")
         .get()
         .then((value) {
       value.docs.forEach((element) {

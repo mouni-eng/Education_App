@@ -4,6 +4,7 @@ import 'package:movies_app/models/services_model.dart';
 import 'package:movies_app/models/subject_model.dart';
 import 'package:movies_app/view_models/find_teacher_cubit/cubit.dart';
 import 'package:rating_dialog/rating_dialog.dart';
+import 'package:sizer/sizer.dart';
 
 ThemeData lightTheme = ThemeData(
     accentColor: kPrimaryColor,
@@ -30,7 +31,7 @@ ThemeData lightTheme = ThemeData(
         ),
         titleTextStyle: TextStyle(
           color: kPrimaryColor,
-          fontSize: 20.0,
+          fontSize: 20.sp,
           fontWeight: FontWeight.bold,
           fontFamily: "Jannah",
         ),
@@ -46,18 +47,18 @@ ThemeData lightTheme = ThemeData(
     ),
     textTheme: TextTheme(
       bodyText1: TextStyle(
-        fontSize: 18.0,
+        fontSize: 16.sp,
         color: kSecondaryColor,
         fontWeight: FontWeight.w700,
         fontFamily: "Jannah",
       ),
       bodyText2: TextStyle(
-        fontSize: 14.0,
+        fontSize: 12.sp,
         color: Colors.grey,
         fontFamily: "Jannah",
       ),
       subtitle1: TextStyle(
-        fontSize: 22.0,
+        fontSize: 20.sp,
         color: kSecondaryColor,
         fontWeight: FontWeight.w700,
         fontFamily: "Jannah",

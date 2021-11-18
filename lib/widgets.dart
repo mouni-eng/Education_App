@@ -21,6 +21,7 @@ import 'package:movies_app/views/teacher_layout_views/teacher_details_chat_view.
 import 'views/teacher_layout_views/service_details_view.dart';
 import 'package:movies_app/views/layout_views/subjects_view.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:sizer/sizer.dart';
 
 void navigateTo(context, Widget screen) {
   // Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
@@ -133,6 +134,7 @@ Widget defaultButton({
           isUpperCase ? text.toUpperCase() : text,
           style: TextStyle(
             color: Colors.white,
+            fontSize: 12.sp,
           ),
         ),
       ),
@@ -309,7 +311,7 @@ Widget decoratedTextButton({
   required context,
 }) => Expanded(
   child:   Container(
-    margin: const EdgeInsets.symmetric(horizontal: 10.0),
+    margin: EdgeInsets.symmetric(horizontal: 2.w),
     decoration: BoxDecoration(
     borderRadius: BorderRadius.circular(25.0),
     border: Border.all(
@@ -317,7 +319,7 @@ Widget decoratedTextButton({
     )
     ),
     child: TextButton(onPressed: onPressed, child: Text(text, style: Theme.of(context).textTheme.caption!.copyWith(
-    fontSize: 16.0,
+    fontSize: 12.sp,
     fontWeight: FontWeight.bold,
     ),)),
     ),
@@ -462,11 +464,11 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
 
           Padding(
 
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(3.w),
 
             child: CircleAvatar(
 
-                radius: 40.0,
+                radius: 40,
 
                 foregroundColor: Colors.white,
 
@@ -478,7 +480,7 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
 
           SizedBox(
 
-            width: 10.0,
+            width: 2.w,
 
           ),
 
@@ -486,7 +488,7 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
 
           Padding(
 
-            padding: const EdgeInsets.only(top: 8.0),
+            padding: EdgeInsets.only(top: 2.h),
 
             child: RichText(
 
@@ -512,8 +514,6 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
 
           )),
 
-          SizedBox(width: 12.0,)
-
         ],
 
       ),
@@ -528,13 +528,13 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
 
             child: Padding(
 
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(2.w),
 
               child: Text('KWD ${model.hourRate!}/hour', style: Theme.of(context).textTheme.bodyText1!.copyWith(
 
                 color: kPrimaryColor,
 
-                fontSize: 16.0,
+                fontSize: 14.sp,
 
               ),),
 
@@ -544,12 +544,12 @@ Widget buildTeacherCard(context, ServicesModel model) => Card(
 
           Padding(
 
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.all(2.w),
 
             child: defaultButton(function: () {
               ServicesCubit.get(context).getServiceRating(model.uid);
               navigateTo(context, TeacherServiceDetailsView(servicesModel: model,));
-            }, height: 35.0, isUpperCase: false, text: 'Preview Service', width: MediaQuery.of(context).size.width / 2.5),
+            }, height: 6.h, isUpperCase: false, text: 'Preview Service', width: 40.w),
 
           ),
 
@@ -694,7 +694,7 @@ Widget buildTeacherChatItem(LogInModel model, context) => InkWell(
     );
   },
   child: Padding(
-    padding: const EdgeInsets.all(20.0),
+    padding: EdgeInsets.all(5.w),
     child: Row(
       children: [
         CircleAvatar(
@@ -704,13 +704,13 @@ Widget buildTeacherChatItem(LogInModel model, context) => InkWell(
           ),
         ),
         SizedBox(
-          width: 15.0,
+          width: 5.w,
         ),
         Text(
           '${model.name}',
           style: TextStyle(
             height: 1.4,
-            fontSize: 18.0,
+            fontSize: 16.sp,
           ),
         ),
       ],
@@ -728,7 +728,7 @@ Widget buildUserChatItem(TeacherModel model, context) => InkWell(
     );
   },
   child: Padding(
-    padding: const EdgeInsets.all(20.0),
+    padding: EdgeInsets.all(5.w),
     child: Row(
       children: [
         CircleAvatar(
@@ -738,13 +738,13 @@ Widget buildUserChatItem(TeacherModel model, context) => InkWell(
           ),
         ),
         SizedBox(
-          width: 15.0,
+          width: 5.w,
         ),
         Text(
           '${model.name}',
           style: TextStyle(
             height: 1.4,
-            fontSize: 18.0,
+            fontSize: 16.sp,
           ),
         ),
       ],

@@ -34,6 +34,8 @@ dependencies:
   scrollable_positioned_list: ^0.2.2
   pinput: ^0.2.6
   http:
+  myfatoorah_flutter: ^2.1.0
+  sizer: ^2.0.15
 
   # firebase
 

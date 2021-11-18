@@ -236,6 +236,7 @@ class ServicesCubit extends Cubit<ServicesStates> {
   void getMessages({
     required String receiverId,
   }) {
+    emit(GetMessagesLoadingState());
     FirebaseFirestore.instance
         .collection('teachers')
         .doc(teacherModel!.uid)
@@ -249,10 +250,6 @@ class ServicesCubit extends Cubit<ServicesStates> {
       event.docs.forEach((element) {
         messages.add(MessageModel.fromJson(element.data()));
       });
-      itemController.jumpTo(
-        index: messages.length,
-        alignment: 0.0,
-      );
       emit(GetMessagesSuccessState());
     });
   }

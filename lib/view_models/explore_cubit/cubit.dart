@@ -215,6 +215,7 @@ class ExploreCubit extends Cubit<ExploreStates> {
   void getUserMessages({
     required String receiverId,
   }) {
+    emit(GetUserMessagesLoadingState());
     FirebaseFirestore.instance
         .collection('users')
         .doc(userModel!.uid)

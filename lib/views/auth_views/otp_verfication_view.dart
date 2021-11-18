@@ -41,10 +41,16 @@ class _OTPViewState extends State<OTPView> {
             margin: EdgeInsets.only(top: 40),
             child: Center(
               child: Text(
-                'Verify +965-${widget.phone}',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                'We sent your code to +965-${widget.phone}',
+                style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  fontSize: 16
+                ),
               ),
             ),
+          ),
+          buildTimer(),
+          SizedBox(
+            height: 30,
           ),
           Padding(
             padding: const EdgeInsets.all(30.0),
@@ -87,9 +93,20 @@ class _OTPViewState extends State<OTPView> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: TextButton(onPressed: () {
-              _verifyPhone();
-            }, child: Text("Resend Code"),),
+            child: RichText(
+              textAlign: TextAlign.center,
+              text: TextSpan(
+                  text: "Didn't receive the code? ",
+                  style: TextStyle(color: Colors.black54, fontSize: 15),
+                  children: [
+                    TextSpan(
+                        text: " RESEND",
+                        style: TextStyle(
+                            color: kPrimaryColor,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16))
+                  ]),
+            ),
           )
         ],
       ),
@@ -98,7 +115,7 @@ class _OTPViewState extends State<OTPView> {
 
   _verifyPhone() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+20${widget.phone}',
+        phoneNumber: '+965${widget.phone}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
@@ -135,5 +152,22 @@ class _OTPViewState extends State<OTPView> {
     // TODO: implement initState
     super.initState();
     _verifyPhone();
+  }
+
+  Row buildTimer() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("This code will expired in "),
+        TweenAnimationBuilder(
+          tween: Tween(begin: 30.0, end: 0.0),
+          duration: Duration(seconds: 30),
+          builder: (_, dynamic value, child) => Text(
+            "00:${value.toInt()}",
+            style: TextStyle(color: kPrimaryColor),
+          ),
+        ),
+      ],
+    );
   }
 }

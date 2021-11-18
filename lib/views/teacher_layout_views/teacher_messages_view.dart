@@ -8,6 +8,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:sizer/sizer.dart';
 
 class TeacherMessagesView extends StatelessWidget {
   @override
@@ -32,7 +33,7 @@ class TeacherMessagesView extends StatelessWidget {
             children: [
               Icon(IconBroken.Info_Circle, size: 80.0,),
               SizedBox(
-                height: 20.0,
+                height: 3.h,
               ),
               Center(child: Text('${LocaleKeys.noMessages1.tr()} \n ${LocaleKeys.noMessages2.tr()}', style: Theme.of(context).textTheme.bodyText1, textAlign: TextAlign.center,)),
             ],

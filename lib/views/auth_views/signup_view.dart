@@ -10,7 +10,7 @@ import 'package:movies_app/view_models/Auth_Cubit/states.dart';
 import 'package:movies_app/views/auth_views/otp_verfication_view.dart';
 import 'package:movies_app/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
-
+import 'package:sizer/sizer.dart';
 
 class RegisterView extends StatelessWidget {
   @override
@@ -50,7 +50,7 @@ class RegisterView extends StatelessWidget {
         return SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.symmetric(horizontal: 6.w, vertical: 2.h),
             child: Form(
               key: _formKey,
               child: Column(
@@ -58,14 +58,14 @@ class RegisterView extends StatelessWidget {
                 children: [
                   Text(LocaleKeys.register.tr(), style: Theme.of(context).textTheme.bodyText1,),
                   SizedBox(
-                    height: 10.0,
+                    height: 1.h,
                   ),
                   defaultTextField(
-                      size: 16,
+                      size: 12.sp,
                       text: LocaleKeys.registerSubHead.tr(),
                       color: Colors.grey),
                   SizedBox(
-                    height: 40.0,
+                    height: 4.h,
                   ),
                   defaultFormField(
                       context: context,
@@ -80,7 +80,7 @@ class RegisterView extends StatelessWidget {
                       label: LocaleKeys.email.tr(),
                       prefix: Icons.email_outlined),
                   SizedBox(
-                    height: 30.0,
+                    height: 4.h,
                   ),
                   defaultFormField(
                       context: context,
@@ -100,7 +100,7 @@ class RegisterView extends StatelessWidget {
                       },
                       isPassword: cubit.isPassword),
                   SizedBox(
-                    height: 30.0,
+                    height: 4.h,
                   ),
                   defaultFormField(
                       context: context,
@@ -115,13 +115,12 @@ class RegisterView extends StatelessWidget {
                       label: LocaleKeys.Name.tr(),
                       prefix: Icons.person),
                   SizedBox(
-                    height: 30.0,
+                    height: 4.h,
                   ),
                   defaultFormField(
                     context: context,
                     controller: _phoneEditingController,
-                    hintText: "+965 - 99999999",
-                    maxLength: 10,
+                    maxLength: 8,
                     type: TextInputType.phone,
                     validate: (value) {
                       if (value!.isEmpty) {
@@ -133,7 +132,7 @@ class RegisterView extends StatelessWidget {
                     prefix: Icons.phone_android_outlined,
                   ),
                   SizedBox(
-                    height: 40.0,
+                    height: 5.h,
                   ),
                   ConditionalBuilder(
                     condition: state is! SignUpLoadingState && state is! CreateUserLoadingState,
@@ -155,7 +154,7 @@ class RegisterView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 20.0,
+                    height: 2.h,
                   ),
                 ],
               ),

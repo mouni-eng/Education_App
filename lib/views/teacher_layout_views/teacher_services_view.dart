@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
 import 'package:movies_app/widgets.dart';
+import 'package:sizer/sizer.dart';
 
 
 class TeacherServicesView extends StatelessWidget {
@@ -16,31 +17,31 @@ class TeacherServicesView extends StatelessWidget {
           ServicesCubit cubit = ServicesCubit.get(context);
           return
             ConditionalBuilder(
-            condition: cubit.teacherServices!.length != 0,
-            builder: (context) => SingleChildScrollView(
+            condition: states is! GetTeacherLoadingState && states is! GetServiceLoadingState && states is! GetChatDataLoadingState,
+            builder: (context) => cubit.teacherServices!.length != 0 ? SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Column(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding:  EdgeInsets.symmetric(vertical: 1.h, horizontal: 2.w),
                     child: ListView.separated(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) => buildTeacherCard(context, cubit.teacherServices![index]),
                         separatorBuilder: (context, index) => SizedBox(
-                          height: 20.0,
+                          height: 2.h,
                         ),
                         itemCount: cubit.teacherServices!.length
                     ),
                   ),
                 ],
               ),
-            ),
-            fallback: (context) => Center(
+            ) : Center(
               child: Text('No current services', style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                fontSize: 18.0,
+                fontSize: 18.sp,
               ),),
             ),
+            fallback: (context) => Center(child: CircularProgressIndicator(),),
           );
         },
     );
