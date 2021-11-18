@@ -12,6 +12,8 @@ import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/bloc_observer.dart';
 import 'package:movies_app/view_models/explore_cubit/cubit.dart';
 import 'package:movies_app/view_models/find_teacher_cubit/cubit.dart';
+import 'package:movies_app/view_models/payment_cubit/cubit.dart';
+import 'package:sizer/sizer.dart';
 
 void main() async{
 
@@ -42,19 +44,24 @@ class EducationApp extends StatelessWidget {
           BlocProvider(create: (BuildContext context) => ExploreCubit()..getUserData()..getUserChats()),
           BlocProvider(create: (BuildContext context) => ServicesCubit()..getTeacherData()..getService()..getChats()),
           BlocProvider(create: (BuildContext context) => FindTeachersCubit()),
+          BlocProvider(create: (BuildContext context) => PaymentCubit()..initPayment()),
         ],
         child: BlocConsumer<AppCubit, AppStates>(
           listener: (context, states) {},
           builder: (context, states) {
             AppCubit cubit = AppCubit.get(context);
-            return MaterialApp(
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              debugShowCheckedModeBanner: false,
-              title: 'Foxpes',
-              theme: lightTheme,
-              home: cubit.chooseInitialPage(),
+            return Sizer(
+                builder: (context, orientation, deviceType) {
+                  return MaterialApp(
+                    localizationsDelegates: context.localizationDelegates,
+                    supportedLocales: context.supportedLocales,
+                    locale: context.locale,
+                    debugShowCheckedModeBanner: false,
+                    title: 'Foxpes',
+                    theme: lightTheme,
+                    home: cubit.chooseInitialPage(),
+                  );
+                }
             );
           } ,
         ),

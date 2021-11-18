@@ -14,6 +14,7 @@ import 'package:movies_app/views/teacher_auth_views/teacher_register_view.dart';
 import 'package:movies_app/views/teacher_layout_views/teacher_layout_view.dart';
 import 'package:movies_app/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sizer/sizer.dart';
 
 class TeacherLoginView extends StatelessWidget {
   @override
@@ -53,13 +54,13 @@ class TeacherLoginView extends StatelessWidget {
               Image.asset(
             'assets/images/teacher.jpg',
             width: double.infinity,
-            height: 240,
+            height: 35.h,
             fit: BoxFit.cover,
             ),
               Container(
-                margin: const EdgeInsets.only(top: 225.0),
+                margin: EdgeInsets.only(top: 34.h),
                 clipBehavior: Clip.antiAliasWithSaveLayer,
-                padding: const EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.h),
                 height: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -75,7 +76,7 @@ class TeacherLoginView extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(height: 15.0,),
+                        SizedBox(height: 3.h,),
                         defaultFormField(
                             context: context,
                             controller: _emailEditingController,
@@ -89,7 +90,7 @@ class TeacherLoginView extends StatelessWidget {
                             label: LocaleKeys.email.tr(),
                             prefix: Icons.email_outlined),
                         SizedBox(
-                          height: 20.0,
+                          height: 3.h,
                         ),
                         defaultFormField(
                             context: context,
@@ -109,7 +110,7 @@ class TeacherLoginView extends StatelessWidget {
                             },
                             isPassword: cubit.isPassword),
                         SizedBox(
-                          height: 20.0,
+                          height: 4.h,
                         ),
                         ConditionalBuilder(
                           condition: state is! TeacherLogInLoadingState,
@@ -130,7 +131,7 @@ class TeacherLoginView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 2.h,
                         ),
                         Row(
                           children: [
@@ -143,7 +144,7 @@ class TeacherLoginView extends StatelessWidget {
                                   navigateTo(context, TeacherRegisterView());
                                 },
                                 child: defaultTextField(
-                                    size: 14.0,
+                                    size: 12.sp,
                                     text: LocaleKeys.apply.tr(),
                                     color: kPrimaryColor)),
                           ],
@@ -152,7 +153,7 @@ class TeacherLoginView extends StatelessWidget {
                           thickness: 1.0,
                         ),
                         SizedBox(
-                          height: 10.0,
+                          height: 2.h,
                         ),
                         Row(
                           children: [

@@ -7,6 +7,7 @@ import 'package:movies_app/models/services_model.dart';
 import 'package:movies_app/services/helper/icon_broken.dart';
 import 'package:movies_app/view_models/Services_cubit/cubit.dart';
 import 'package:movies_app/view_models/Services_cubit/states.dart';
+import 'package:movies_app/views/teacher_layout_views/payment_view.dart';
 import 'package:movies_app/widgets.dart';
 
 class AddServicesView extends StatelessWidget {
@@ -148,7 +149,22 @@ class AddServicesView extends StatelessWidget {
                         if(cubit.teacherModel!.status == "Pending") {
                           showToast(text: "Your Profile is still Pending for approval", state: ToastState.ERROR);
                         }else {
-                          cubit.uploadService(
+                          navigateTo(context, PaymentView(servicesModel: ServicesModel(
+                            nationality: _nationalityEditingController.text,
+                            aboutMe: _aboutMeEditingController.text,
+                            name: cubit.teacherModel!.name ?? "",
+                            uid: uId ?? "",
+                            image: cubit.teacherModel!.image ?? "",
+                            education: _educationEditingController.text,
+                            experience: _experienceEditingController.text,
+                            age: _ageEditingController.text,
+                            hourRate: _hourRateEditingController.text,
+                            dateTime: DateTime.now().add(Duration(days: 7)).toString(),
+                            rank: 0,
+                            rating: "NA",
+                            field: cubit.teacherModel!.field ?? "",
+                          )));
+                          /*cubit.uploadService(
                               ServicesModel(
                                 nationality: _nationalityEditingController.text,
                                 aboutMe: _aboutMeEditingController.text,
@@ -163,10 +179,10 @@ class AddServicesView extends StatelessWidget {
                                 rating: "NA",
                                 field: cubit.teacherModel!.field ?? "",
                               )
-                          );
+                          );*/
                         }
                       }
-                    }, text: "SUBMIT!", radius: 25.0,),
+                    }, text: "Submit with 1.00 KD", radius: 25.0, isUpperCase: false),
                     fallback: (context) => Center(child: CircularProgressIndicator(),),
                   ),
                 ],

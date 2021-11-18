@@ -53,8 +53,8 @@ class DetailsChatView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ConditionalBuilder(
-                        condition: cubit.userMessages.length > 0,
-                        builder: (context) => ScrollablePositionedList.separated(
+                        condition: state is! GetUserMessagesLoadingState,
+                        builder: (context) => cubit.userMessages.length > 0 ? ScrollablePositionedList.separated(
                           itemScrollController: cubit.itemController,
                           physics: BouncingScrollPhysics(),
                           initialAlignment: 0.0,
@@ -72,12 +72,12 @@ class DetailsChatView extends StatelessWidget {
                             height: 15.0,
                           ),
                           itemCount: cubit.userMessages.length,
-                        ),
-                        fallback: (context) => Center(
+                        ) : Center(
                           child: Text(
                             'No current messages',
                           ),
                         ),
+                        fallback: (context) => Center(child: CircularProgressIndicator(),),
                       ),
                     ),
                     SizedBox(height: 10.0,),

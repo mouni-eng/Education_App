@@ -47,8 +47,8 @@ class TeacherDetailsChatView extends StatelessWidget {
                 ),
               ),
               body: ConditionalBuilder(
-                condition: cubit.messages.length > 0,
-                builder: (context) => Padding(
+                condition: state is! GetMessagesLoadingState,
+                builder: (context) => cubit.messages.length > 0 ? Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Column(
                     children: [
@@ -133,12 +133,12 @@ class TeacherDetailsChatView extends StatelessWidget {
                       ),
                     ],
                   ),
-                ),
-                fallback: (context) => Center(
+                ) : Center(
                   child: Text(
                     'No current messages',
                   ),
                 ),
+                fallback: (context) => Center(child: CircularProgressIndicator(),),
               ),
             );
           },

@@ -80,8 +80,8 @@ class ExploreView extends StatelessWidget {
       builder: (context, states) {
         ExploreCubit cubit = ExploreCubit.get(context);
         return ConditionalBuilder(
-          condition: cubit.userModel != null,
-          builder: (context) => SafeArea(
+          condition: states is! GetUserChatDataLoadingState && states is! GetUserLoadingState,
+          builder: (context) => cubit.userModel != null ? SafeArea(
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Padding(
@@ -151,7 +151,9 @@ class ExploreView extends StatelessWidget {
                 ),
               ),
             ),
-          ),
+          ) : Center(child: Text(
+            'No current user',
+          ),),
           fallback: (context) => Center(child: CircularProgressIndicator(),),
         );
       },

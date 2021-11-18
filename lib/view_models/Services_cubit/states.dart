@@ -45,6 +45,7 @@ class SendMessageSuccessState extends ServicesStates {}
 
 class SendMessageErrorState extends ServicesStates {}
 
+class GetMessagesLoadingState extends ServicesStates {}
 class GetMessagesSuccessState extends ServicesStates {}
 
 class ChangeNotificationState extends ServicesStates {}

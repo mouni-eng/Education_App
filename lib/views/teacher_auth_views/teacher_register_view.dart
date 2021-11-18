@@ -12,6 +12,8 @@ import 'package:movies_app/view_models/Auth_Cubit/states.dart';
 import 'package:movies_app/views/auth_views/otp_verfication_view.dart';
 import 'package:movies_app/widgets.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:sizer/sizer.dart';
+
 
 class TeacherRegisterView extends StatefulWidget {
   @override
@@ -33,7 +35,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
       appBar: AppBar(
         title: Text(LocaleKeys.applyHead.tr(), style: Theme.of(context).textTheme.bodyText1!.copyWith(
           color: Colors.black,
-          fontSize: 18.0,
+          fontSize: 14.sp,
         ),),
         centerTitle: true,
         leading: IconButton(icon: Icon(IconBroken.Arrow___Left_2, color: Colors.red,), onPressed: () {Navigator.pop(context);},),
@@ -68,12 +70,12 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
           return SingleChildScrollView(
             physics: BouncingScrollPhysics(),
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(4.w),
               child: Form(
                 key: _formKey,
                 child: Column(
                   children: [
-                    SizedBox(height: 10.0,),
+                    SizedBox(height: 1.h,),
                     Center(
                       child: Stack(
                         alignment: AlignmentDirectional.bottomEnd,
@@ -97,7 +99,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                       ),
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 5.h,
                     ),
                     defaultFormField(
                         context: context,
@@ -112,7 +114,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                         label: LocaleKeys.Name.tr(),
                         prefix: IconBroken.Profile),
                     SizedBox(
-                      height: 20.0,
+                      height: 3.h,
                     ),
                     defaultFormField(
                         context: context,
@@ -127,7 +129,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                         label: LocaleKeys.email.tr(),
                         prefix: IconBroken.User),
                     SizedBox(
-                      height: 20.0,
+                      height: 3.h,
                     ),
                     defaultFormField(
                         context: context,
@@ -147,13 +149,12 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                         },
                         isPassword: cubit.isPassword),
                     SizedBox(
-                      height: 20.0,
+                      height: 3.h,
                     ),
                     defaultFormField(
                       context: context,
                       controller: _phoneEditingController,
-                      hintText: "+965",
-                      maxLength: 10,
+                      maxLength: 8,
                       type: TextInputType.phone,
                       validate: (value) {
                         if (value!.isEmpty) {
@@ -165,7 +166,7 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                       prefix: IconBroken.Call,
                     ),
                     SizedBox(
-                      height: 20.0,
+                      height: 3.h,
                     ),
                     Container(
                       width: double.infinity,
@@ -176,25 +177,30 @@ class _TeacherRegisterViewState extends State<TeacherRegisterView> {
                           onChanged: (value) => setState(() => field = value),
                         ),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 4.w),
                       decoration: BoxDecoration(
-                          border: Border.all(color: kPrimaryColor)
+                          border: Border.all(color: kPrimaryColor),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                     SizedBox(
-                      height: 30.0,
+                      height: 3.h,
                     ),
                     ConditionalBuilder(
                       condition: state is! TeacherSignUpLoadingState && state is! TeacherUploadLoadingState && state is! CreateTeacherLoadingState,
                       builder: (context) => defaultButton(function: (){
                         if (_formKey.currentState!.validate()) {
-                          cubit.teacherSignUp(
-                            name: _nameEditingController.text,
-                            phone: _phoneEditingController.text,
-                            email: _emailEditingController.text,
-                            field: field,
-                            password: _passwordEditingController.text,
-                          );
+                          if(field != null) {
+                            cubit.teacherSignUp(
+                              name: _nameEditingController.text,
+                              phone: _phoneEditingController.text,
+                              email: _emailEditingController.text,
+                              field: field,
+                              password: _passwordEditingController.text,
+                            );
+                          }else {
+                            showToast(text: "Please choose field", state: ToastState.ERROR);
+                          }
                         }
                       }, text: LocaleKeys.apply.tr(), radius: 25.0,),
                       fallback: (context) => Center(child: CircularProgressIndicator(),),

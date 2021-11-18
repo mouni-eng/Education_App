@@ -24,8 +24,8 @@ class FindTeacherView extends StatelessWidget {
         builder: (context, state) {
           FindTeachersCubit cubit = FindTeachersCubit.get(context);
           return ConditionalBuilder(
-            condition: cubit.allTeachersServices!.length != 0,
-            builder: (context) =>  SingleChildScrollView(
+            condition: state is! GetAllTeacherLoadingState,
+            builder: (context) => cubit.allTeachersServices!.length != 0 ?  SingleChildScrollView(
               physics: BouncingScrollPhysics(),
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -43,10 +43,10 @@ class FindTeacherView extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-            fallback: (context) => Center(child: Text('No current services', style: Theme.of(context).textTheme.bodyText2!.copyWith(
+            ) : Center(child: Text('No current services', style: Theme.of(context).textTheme.bodyText2!.copyWith(
               fontSize: 18.0,
             ),),),
+            fallback: (context) => Center(child: CircularProgressIndicator(),),
           );
         },
       ),
