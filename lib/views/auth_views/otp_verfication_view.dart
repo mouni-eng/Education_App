@@ -93,19 +93,19 @@ class _OTPViewState extends State<OTPView> {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.0),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  text: "Didn't receive the code? ",
-                  style: TextStyle(color: Colors.black54, fontSize: 15),
-                  children: [
-                    TextSpan(
-                        text: " RESEND",
-                        style: TextStyle(
-                            color: kPrimaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16))
-                  ]),
+            child: Row(
+              children: [
+                Text("Didn't receive the code?", style: Theme.of(context).textTheme.bodyText2,),
+                SizedBox(width: 10,),
+                InkWell(
+                  onTap: () {
+                    _verifyPhone();
+                  },
+                  child: Text("RESEND", style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                    color: kPrimaryColor,
+                  ),),
+                ),
+              ],
             ),
           )
         ],
@@ -131,7 +131,7 @@ class _OTPViewState extends State<OTPView> {
           }).catchError((error) { showToast(text: error.toString(), state: ToastState.ERROR);} );
         },
         verificationFailed: (FirebaseAuthException e) {
-          print(e.message);
+          showToast(text: e.toString(), state: ToastState.ERROR);
         },
         codeSent: (String? verficationID, int? resendToken) {
           setState(() {
@@ -161,7 +161,7 @@ class _OTPViewState extends State<OTPView> {
         Text("This code will expired in "),
         TweenAnimationBuilder(
           tween: Tween(begin: 30.0, end: 0.0),
-          duration: Duration(seconds: 30),
+          duration: Duration(seconds: 120),
           builder: (_, dynamic value, child) => Text(
             "00:${value.toInt()}",
             style: TextStyle(color: kPrimaryColor),
