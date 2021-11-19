@@ -115,7 +115,7 @@ class _OTPViewState extends State<OTPView> {
 
   _verifyPhone() async {
     await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: '+20${widget.phone}',
+        phoneNumber: '+965${widget.phone}',
         verificationCompleted: (PhoneAuthCredential credential) async {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
@@ -161,7 +161,7 @@ class _OTPViewState extends State<OTPView> {
         Text("This code will expired in "),
         TweenAnimationBuilder(
           tween: Tween(begin: 30.0, end: 0.0),
-          duration: Duration(seconds: 30),
+          duration: Duration(seconds: 120),
           builder: (_, dynamic value, child) => Text(
             "00:${value.toInt()}",
             style: TextStyle(color: kPrimaryColor),
