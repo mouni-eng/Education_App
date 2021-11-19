@@ -120,7 +120,7 @@ class RegisterView extends StatelessWidget {
                   defaultFormField(
                     context: context,
                     controller: _phoneEditingController,
-                    maxLength: 8,
+                    maxLength: 10,
                     type: TextInputType.phone,
                     validate: (value) {
                       if (value!.isEmpty) {
